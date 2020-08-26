@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Single Page App</title>
+    <meta charset="utf-8">
+    <style>
+        .appUI{
+          display:none;
+        }
+
+        .popup{
+          z-index:10;
+          top: 10%;
+          right: 10%;
+          width: 80%;
+          height: 80%;
+          position: fixed;
+          margin: auto;
+          display:none;
+          background-color: white;
+          border: 2px solid black;
+          border-radius: 2px;
+        }
+
+        .exit_popup{
+          float: right;
+        }
+
+        #portal_bar{
+          display: none;
+        }
+        body{
+          text-align:center;
+        }
+    </style>
+    <script src="https://cdn.rawgit.com/naptha/tesseract.js/0.2.0/dist/tesseract.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  </head>
+  <body onload="splash();">
+    <div id='volunteer_portal' style='width:max-content;margin:auto;'>
+      <input type="file" id="captured_image" accept="image/*" style="display:none;" onchange="scan_label();">
+      <h1>Blueprints For Pangaea: Volunteer Portal</h1>
+      <span id="portal_bar"><button style="float:left;" onclick="show_statistics();">Stats</button><button style="float:right;" onclick="show_popup('help_popup');">Help</button></span>
+      <div id="login">
+        <h2>Log In</h2>
+        <div>
+          <label for="first_name">First Name:</label><br>
+          <input type="text" id="first_name" name="first_name">
+        </div>
+        <br>
+        <div>
+          <label for="last_name">Last Name:</label><br>
+          <input type="text" id="last_name" name="last_name">
+        </div>
+        <br>
+        <div>
+          <label for="email">Email:</label><br>
+          <input type="text" id="email" name="email">
+        </div>
+        <br>
+        <div>
+          <label for="event">Event:</label><br>
+          <select id="event" name="event" onchange="retrieve_organizations();">
+            <option value=-1>----------</option>
+          </select>
+        </div>
+        <br>
+        <div>
+          <label for="organization">Organization:</label><br>
+          <select id="organization" name="organization">
+            <option value=-1>----------</option>
+          </select>
+        </div>
+        <br>
+        <div>
+          <label for="password">Password:</label><br>
+          <input type="text" id="password" name="password">
+        </div>
+        <br>
+        <button type="button" onclick="login();">Log In</button>
+      </div>
+      <div id="welcome" class="appUI">
+        <h2>Welcome!</h2>
+        <p>Thank you so much for your hard work and dedication. With your help we will be able to help the hospitals of the world better serve their patients with quality medical supplies</p>
+        <button onclick="document.getElementById('captured_image').click();">Capture Image</button>
+      </div>
+      <div id="results" class="appUI">
+        <h2>Scanning</h2>
+        <button onclick="document.getElementById('captured_image').click();">Recapture Image</button>
+        <div id="ocr_status"></div>
+        <div id="supply_matches" style="width:max-content;margin:auto;"></div>
+      </div>
+      <div id="registered" class="appUI">
+        <h2>Success!</h2>
+        <label for="success_category">Category: </label><span id="success_category" name="success_category"></span><br>
+        <button onclick="document.getElementById('captured_image').click();">Capture Another Image</button>
+      </div>
+      <div id="inventory_popup" class="popup">
+        <button class="exit_popup" onclick="hide_popup('inventory_popup');">X</button><br><hr>
+        <h2>Enter Inventory Item</h2>
+        <div>
+          <label for="supply_name">Name:</label><span id="supply_name" name="supply_name">
+        </div>
+        <br>
+        <div>
+          <label for="brand_name">Brand:</label><span id="brand_name" name="brand_name">
+        </div>
+        <br>
+        <div>
+          <label for="ref_number">Ref #:</label><span id="ref_number" name="ref_number">
+        </div>
+        <br>
+        <div>
+          <label for="amount">Amount:</label><br>
+          <input type="number" id="amount" name="amount">
+        </div>
+        <br>
+        <div>
+          <label for="expiration_day">Expiration Day:</label><br>
+          <input type="number" id="expiration_day" name="expiration_day">
+        </div>
+        <br>
+        <div>
+          <label for="expiration_month">Expiration Month:</label><br>
+          <input type="number" id="expiration_month" name="expiration_month">
+        </div>
+        <br>
+        <div>
+          <label for="expiration_year">Expiration Year:</label><br>
+          <input type="number" id="expiration_year" name="expiration_year">
+        </div>
+        <br>
+        <button onclick="register_inventory_item();">Enter Inventory</button>
+      </div>
+      <div id="help_popup" class="popup">
+        <button class="exit_popup" onclick="hide_popup('help_popup');">X</button><br><hr>
+        <h2>Help</h2>
+        <p>I am currently working on this content.</p>
+      </div>
+      <div id="stats_popup" class="popup">
+        <button class="exit_popup" onclick="hide_popup('stats_popup');">X</button><br><hr>
+        <h2>Statistics</h2>
+        <div>
+          <label for="event_statistics">Total Inventory Items Registered (Today):</label><span id="event_statistics" name="event_statistics">
+        </div>
+        <br>
+        <div>
+          <label for="life_statistics">Total Inventory Items Registered (All Time):</label><span id="life_statistics" name="life_statistics">
+        </div>
+      </div>
+      <div id="supply_popup" class="popup">
+        <button class="exit_popup" onclick="hide_popup('supply_popup');">X</button><br><hr>
+        <h2>Enter Inventory Item</h2>
+        <div>
+          <label for="medical_supply_name">Name:</label><br>
+          <input type="text" id="medical_supply_name" name="medical_supply_name">
+        </div>
+        <br>
+        <div>
+          <label for="supply_brand_name">Brand:</label><br>
+          <input type="text" id="supply_brand_name" name="supply_brand_name">
+        </div>
+        <br>
+        <div>
+          <label for="supply_ref_number">Ref #:</label><br>
+          <input type="text" id="supply_ref_number" name="supply_ref_number">
+        </div>
+        <br>
+        <div>
+          <label for="supply_amount">Amount:</label><br>
+          <input type="number" id="supply_amount" name="supply_amount">
+        </div>
+        <br>
+        <div>
+          <label for="supply_expiration_day">Expiration Day:</label><br>
+          <input type="number" id="supply_expiration_day" name="supply_expiration_day">
+        </div>
+        <br>
+        <div>
+          <label for="supply_expiration_month">Expiration Month:</label><br>
+          <input type="number" id="supply_expiration_month" name="supply_expiration_month">
+        </div>
+        <br>
+        <div>
+          <label for="supply_expiration_year">Expiration Year:</label><br>
+          <input type="number" id="supply_expiration_year" name="supply_expiration_year">
+        </div>
+        <br>
+        <button onclick="register_supply_item();">Enter Inventory</button>
+      </div>
+    </div>
+    <script>
+      //Global Variables
+      var credentials;
+      var selected_supply;
+
+      function show_page(page_id){
+        pages = ["registered", "login", "welcome", "results"];
+
+        for(var i = 0; i < pages.length; i++){
+          page = pages[i];
+          if(page == page_id){
+            document.getElementById(page).style.display="block";
+          }
+          else{
+            document.getElementById(page).style.display="none";
+          }
+        }
+      }
+
+      async function splash(){
+        var creds = $.cookie("pangaea-credentials");
+        if(creds === undefined){
+          await $.getJSON("http://192.168.1.88:8000/api/events/", function(json){populate_events(json['data']);});
+          await show_page("login");
+        }
+        else{
+          document.getElementById('portal_bar').style.display = "block";
+          credentials = JSON.parse(creds);
+          await show_page("welcome");
+        }
+      }
+
+      async function login(){
+        var req, resp;
+        if(document.getElementById("organization").value == -1){
+          req = {"event":Number(document.getElementById("event").value), "first_name":document.getElementById("first_name").value, "last_name":document.getElementById("last_name").value, "email":document.getElementById("email").value, "password":document.getElementById("password").value};
+        }
+
+        else{
+          req = {"event":Number(document.getElementById("event").value), "organization":Number(document.getElementById("organization").value), "first_name":document.getElementById("first_name").value, "last_name":document.getElementById("last_name").value, "email":document.getElementById("email").value, "password":document.getElementById("password").value};
+        }
+
+        await $.ajax({
+          type : "POST",
+          url : "http://192.168.1.88:8000/api/register_volunteer/",
+          data : JSON.stringify(req),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          success: function(json){
+            credentials = {"id":json['id'], "password":document.getElementById("password").value}
+            $.cookie("pangaea-credentials",JSON.stringify(credentials), {expires:1});
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+          }
+        });
+        document.getElementById('portal_bar').style.display = "block";
+        await show_page("welcome");
+      }
+
+      function populate_events(events){
+        const ev = document.getElementById("event");
+        for(var i = 0; i < events.length; i++) {
+          var opt = events[i];
+          var el = document.createElement("option");
+          el.textContent = opt[1];
+          el.value = opt[0];
+          ev.appendChild(el);
+        }
+      }
+
+      async function retrieve_organizations(){
+        const ev = document.getElementById("event");
+        const org = document.getElementById("organization");
+
+        var length = org.options.length;
+        for (i = 1; i < length; i++) {
+          org.options[i] = null;
+        }
+        if(ev.value != -1) {
+          await $.ajax({
+            type : "POST",
+            url : "http://192.168.1.88:8000/api/organizations/",
+            data : JSON.stringify({"event":Number(ev.value)}),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            success: function(json){
+              populate_organizations(json['data']);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+              alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+            }
+          });
+        }
+      }
+
+      function populate_organizations(organizations){
+        for(var i = 0; i < organizations.length; i++) {
+          var opt = organizations[i];
+          var el = document.createElement("option");
+          el.textContent = opt[1];
+          el.value = opt[0];
+          document.getElementById("organization").appendChild(el);
+        }
+      }
+
+      function scan_label(){
+        read_image();
+        show_page("results");
+      }
+
+      async function read_image(){
+        var image_text;
+
+        await Tesseract.recognize(document.getElementById('captured_image').files[0])
+            .then(function(result) {
+                image_text = result.text;
+            }).progress(function(result) {
+                document.getElementById("ocr_status")
+                        .innerText = (result["progress"] * 100).toFixed(2) + "%";
+            });
+        await search_supply(image_text);
+      }
+
+      async function search_supply(image_text){
+        await $.ajax({
+          type : "POST",
+          url : "http://192.168.1.88:8000/api/search_supply/",
+          data : JSON.stringify({"volunteer":Number(credentials['id']),"password":credentials['password'],"image_text":image_text}),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          success: function(json){
+            populate_search_results(json['search_results']);
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+          }
+        });
+      }
+
+      function populate_search_results(supplies) {
+        var supply_matches = document.getElementById("supply_matches");
+        for(var i = 0; i < supplies.length; i++) {
+          var supply = supplies[i][1];
+          var supply_el = document.createElement("div");
+          supply_el.style.backgroundColor = "lightgrey";
+          supply_el.style.border = "thick solid black";
+          supply_el.innerText = "Brand: " + supply['brand'] + " | Name: " + supply['name'] + " | Reference #: " + supply['ref_number'];
+          supply_el.addEventListener("click",function(){select_inventory_item(supply);});
+          supply_matches.appendChild(supply_el);
+        }
+        var supply_el = document.createElement("div");
+        supply_el.style.backgroundColor = "lightgrey";
+        supply_el.style.border = "thick solid black";
+        supply_el.innerText = "Don't see a match? Click here.";
+        supply_el.addEventListener("click",function(){show_popup("supply_popup");});
+        supply_matches.appendChild(supply_el);
+      }
+
+      function show_popup(popup_id) {
+        var popups = ["inventory_popup", "supply_popup", "help_popup", "stats_popup"]
+        if(popups.indexOf(popup_id) > -1){
+          document.getElementById(popup_id).style.display="block";
+        }
+      }
+
+      function hide_popup(popup_id) {
+        var popups = ["inventory_popup", "supply_popup", "help_popup", "stats_popup"]
+        if(popups.indexOf(popup_id) > -1){
+          document.getElementById(popup_id).style.display="none";
+        }
+      }
+
+      async function show_statistics() {
+        await $.ajax({
+          type : "POST",
+          url : "http://192.168.1.88:8000/api/stats/",
+          data : JSON.stringify({"volunteer":Number(credentials['id']),"password":credentials['password']}),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          success: function(json){
+            document.getElementById("event_statistics").innerText = json['today'];
+            document.getElementById("life_statistics").innerText = json['all_time'];
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+          }
+        });
+        await show_popup("stats_popup");
+      }
+
+      async function register_inventory_item() {
+        await $.ajax({
+          type : "POST",
+          url : "http://192.168.1.88:8000/api/register_inventory/",
+          data : JSON.stringify({"volunteer":Number(credentials['id']),"password":credentials['password'],"supply":Number(selected_supply['id']),"amount":Number(document.getElementById("amount").value),"expiration_date":{"year":Number(document.getElementById("expiration_year").value), "month":Number(document.getElementById("expiration_month").value), "day":Number(document.getElementById("expiration_day").value)}}),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          success: function(json){
+            document.getElementById("success_category").innerText = json['category'];
+            show_page("registered");
+            hide_popup("inventory_popup");
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+          }
+        });
+
+        var supply_matches = document.getElementById("supply_matches");
+        while (supply_matches.firstChild) {
+          supply_matches.removeChild(supply_matches.firstChild)
+        }
+      }
+
+      function select_inventory_item(supply) {
+        selected_supply = supply;
+
+        document.getElementById("supply_name").innerText = supply['name'];
+        document.getElementById("brand_name").innerText = supply['brand'];
+        document.getElementById("ref_number").innerText = supply['ref_number'];
+
+        show_popup("inventory_popup");
+      }
+
+      async function register_supply_item() {
+        var supply_id;
+        await $.ajax({
+          type : "POST",
+          url : "http://192.168.1.88:8000/api/register_supply/",
+          data : JSON.stringify({"volunteer":Number(credentials['id']),
+                                  "password":credentials['password'],
+                                  "name":document.getElementById("medical_supply_name").value,
+                                  "brand":document.getElementById("supply_brand_name").value,
+                                  "ref_number":document.getElementById("supply_ref_number").value
+                                }),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          success: function(json){
+            supply_id = json['id'];
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+          }
+        });
+        await $.ajax({
+          type : "POST",
+          url : "http://192.168.1.88:8000/api/register_inventory/",
+          data : JSON.stringify({"volunteer":Number(credentials['id']),
+                                  "password":credentials['password'],
+                                  "supply":Number(supply_id),
+                                  "amount":Number(document.getElementById("supply_amount").value),
+                                  "expiration_date":{
+                                    "year":Number(document.getElementById("supply_expiration_year").value),
+                                    "month":Number(document.getElementById("supply_expiration_month").value),
+                                    "day":Number(document.getElementById("supply_expiration_day").value)
+                                  }
+                                }),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          success: function(json){
+              document.getElementById("success_category").innerText = json['category'];
+              show_page("registered");
+              hide_popup("supply_popup");
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+          }
+        });
+
+        var supply_matches = document.getElementById("supply_matches");
+        while (supply_matches.firstChild) {
+          supply_matches.removeChild(supply_matches.firstChild)
+        }
+      }
+    </script>
+  </body>
+</html>
