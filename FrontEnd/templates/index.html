@@ -89,7 +89,7 @@
         <h2>Scanning</h2>
         <button onclick="document.getElementById('captured_image').click();">Recapture Image</button>
         <div id="ocr_status"></div>
-        <div id="supply_matches" style="width:max-content;margin:auto;"></div>
+        <div id="supply_matches" style="width:max-content;margin:auto;"><div style="background-color: lightgrey; border: thick black line;"></div>
       </div>
       <div id="registered" class="appUI">
         <h2>Success!</h2>
@@ -212,7 +212,7 @@
       async function splash(){
         var creds = $.cookie("pangaea-credentials");
         if(creds === undefined){
-          await $.getJSON("http://192.168.1.88:8000/api/events/", function(json){populate_events(json['data']);});
+          await $.getJSON("http://52.188.114.62:80/api/events/", function(json){populate_events(json['data']);});
           await show_page("login");
         }
         else{
@@ -234,13 +234,14 @@
 
         await $.ajax({
           type : "POST",
-          url : "http://192.168.1.88:8000/api/register_volunteer/",
+          url : "http://52.188.114.62:80/api/register_volunteer/",
           data : JSON.stringify(req),
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
           success: function(json){
+	    alert(json['error']);
             credentials = {"id":json['id'], "password":document.getElementById("password").value}
             $.cookie("pangaea-credentials",JSON.stringify(credentials), {expires:1});
           },
@@ -274,7 +275,7 @@
         if(ev.value != -1) {
           await $.ajax({
             type : "POST",
-            url : "http://192.168.1.88:8000/api/organizations/",
+            url : "http://52.188.114.62:80/api/organizations/",
             data : JSON.stringify({"event":Number(ev.value)}),
             headers: {
               'Accept': 'application/json',
@@ -321,13 +322,14 @@
       async function search_supply(image_text){
         await $.ajax({
           type : "POST",
-          url : "http://192.168.1.88:8000/api/search_supply/",
+          url : "http://52.188.114.62:80/api/search_supply/",
           data : JSON.stringify({"volunteer":Number(credentials['id']),"password":credentials['password'],"image_text":image_text}),
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
           success: function(json){
+	    alert(json['success'] + json['error']);
             populate_search_results(json['search_results']);
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -372,13 +374,14 @@
       async function show_statistics() {
         await $.ajax({
           type : "POST",
-          url : "http://192.168.1.88:8000/api/stats/",
+          url : "http://52.188.114.62:80/api/stats/",
           data : JSON.stringify({"volunteer":Number(credentials['id']),"password":credentials['password']}),
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
           success: function(json){
+	    alert(json['success']);
             document.getElementById("event_statistics").innerText = json['today'];
             document.getElementById("life_statistics").innerText = json['all_time'];
           },
@@ -392,7 +395,7 @@
       async function register_inventory_item() {
         await $.ajax({
           type : "POST",
-          url : "http://192.168.1.88:8000/api/register_inventory/",
+          url : "http://52.188.114.62:80/api/register_inventory/",
           data : JSON.stringify({"volunteer":Number(credentials['id']),"password":credentials['password'],"supply":Number(selected_supply['id']),"amount":Number(document.getElementById("amount").value),"expiration_date":{"year":Number(document.getElementById("expiration_year").value), "month":Number(document.getElementById("expiration_month").value), "day":Number(document.getElementById("expiration_day").value)}}),
           headers: {
             'Accept': 'application/json',
@@ -428,7 +431,7 @@
         var supply_id;
         await $.ajax({
           type : "POST",
-          url : "http://192.168.1.88:8000/api/register_supply/",
+          url : "http://52.188.114.62:80/api/register_supply/",
           data : JSON.stringify({"volunteer":Number(credentials['id']),
                                   "password":credentials['password'],
                                   "name":document.getElementById("medical_supply_name").value,
@@ -448,7 +451,7 @@
         });
         await $.ajax({
           type : "POST",
-          url : "http://192.168.1.88:8000/api/register_inventory/",
+          url : "http://52.188.114.62:80/api/register_inventory/",
           data : JSON.stringify({"volunteer":Number(credentials['id']),
                                   "password":credentials['password'],
                                   "supply":Number(supply_id),

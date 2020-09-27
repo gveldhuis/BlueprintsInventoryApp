@@ -11,5 +11,8 @@ urlpatterns = [
     path('api/register_inventory/', inventory_views.add_inventory),
     path('api/register_supply/', inventory_views.add_supply),
     path('api/search_supply/', inventory_views.search_supply),
-    path('api/stats/', inventory_views.volunteer_statistics)
+    path('api/stats/', inventory_views.volunteer_statistics),
+    path('upload_supply/', inventory_views.import_supply_csv),
+    path('supply_info/', inventory_views.export_supply_csv),
+    path('inventory_info/', inventory_views.export_inventory_csv)
 ]

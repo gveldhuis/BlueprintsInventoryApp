@@ -207,3 +207,54 @@ def volunteer_statistics(request):
     inv_all_time = sum([inv_obj.amount for inv_obj in all_time])
 
     return JsonResponse({'success':True,'today':inv_today,'all_time':inv_all_time})
+
+from io import StringIO
+import csv
+
+@csrf_exempt
+def import_supply_csv(request):
+    #Load JSON request
+    context = json.loads(request.body)
+
+    file_contents = context['file_contents']
+    file_contents.pop(0)
+
+    for line in file_contents:
+        line = line.rstrip()
+        attributes = line.split(',')
+        if attributes[2] != '':
+            supply_obj = Supply(ref_number=attributes[1], brand="brand", name=attributes[0], price=float(attributes[2]), flagged=False)
+        else:
+            supply_obj = Supply(ref_number=attributes[1], brand="brand", name=attributes[0], flagged=False)
+        supply_obj.save()
+
+@csrf_exempt
+def export_supply_csv(request):
+    supply_objects = Supply.objects.all()
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="supply.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(["Name", "Brand", "Reference Number", "Price", "Category", "Flagged"])
+
+    for supply_obj in supply_objects:
+         writer.writerow([supply_obj.name, supply_obj.brand, supply_obj.ref_number, supply_obj.price, supply_obj.category, supply_obj.flagged])
+
+    return response
+
+@csrf_exempt
+def export_inventory_csv(request):
+    inventory_objects = InventoryItem.objects.all()
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="inventory.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(["Supply Name", "Supply Brand", "Supply Reference Number", "Supply Price", "Supply Category", "Flagged", "Expiration Date", "Amount", "Volunteer First Name", "Volunteer Last Name"])
+
+    for inventory_obj in inventory_objects:
+         writer.writerow([inventory_obj.supply.name, inventory_obj.supply.brand, inventory_obj.supply.ref_number, inventory_obj.supply.price, inventory_obj.supply.category, inventory_obj.supply.flagged, inventory_obj.expiration_date, inventory_obj.amount, inventory_obj.volunteer.first_name, inventory_obj.volunteer.last_name])
+
+    return response
+

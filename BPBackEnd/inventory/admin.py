@@ -35,7 +35,8 @@ class SupplyAdmin(admin.ModelAdmin):
     list_filter = [SupplyFlagFilter]
 
 class InventoryItemAdmin(admin.ModelAdmin):
-    list_display = ('id', 'amount', 'supply_name', 'supply_brand', 'expiration_date', 'supply_id', 'volunteer')
+    list_display = ('id', 'amount', 'supply_name', 'supply_brand', 'supply_ref', 'supply_price', 'supply_category', 'expiration_date', 'supply_id', 'volunteer')
+    search_fields = ['id', 'amount', 'supply_name', 'supply_brand', 'supply_ref', 'supply_price', 'supply_category']
 
     def supply_id(self, obj):
         return obj.supply.id
@@ -45,6 +46,15 @@ class InventoryItemAdmin(admin.ModelAdmin):
 
     def supply_brand(self, obj):
         return obj.supply.brand
+
+    def supply_ref(self, obj):
+        return obj.supply.ref_number
+
+    def supply_price(self, obj):
+        return obj.supply.price
+
+    def supply_category(self, obj):
+        return obj.supply.category
 
 # Register your models here.
 admin.site.register(Category, CategoryAdmin)
