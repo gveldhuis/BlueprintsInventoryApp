@@ -67,7 +67,7 @@ class App extends React.Component {
       // Authentication Provider allows entire app to access login state
       <Router>
         <Authentication.Provider>
-          {isLoggedIn ? <Redirect to="/home" /> : <Redirect to="/login" />}
+          {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/login" />}
         </Authentication.Provider>
       </Router>
     );
