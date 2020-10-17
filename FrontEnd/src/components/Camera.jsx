@@ -1,6 +1,13 @@
 import React from 'react';
 
+// Placeholder camera until actual Camera component is implemented
 class Camera extends React.Component {
+  render() {
+    return <p>Camera</p>;
+  }
+}
+
+class CameraFeed extends React.Component {
   constructor(props) {
     super(props);
   }

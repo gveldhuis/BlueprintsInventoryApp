@@ -5,6 +5,9 @@ import {
   Redirect,
 } from 'react-router-dom';
 import Navbar from './Navbar';
+import Help from './Help';
+import Stats from './Stats';
+import Camera from './Camera';
 
 class Home extends React.Component {
   render() {
@@ -25,24 +28,6 @@ class Home extends React.Component {
         <Navbar />
       </div>
     );
-  }
-}
-
-class Camera extends React.Component {
-  render() {
-    return <p>Camera</p>;
-  }
-}
-
-class Stats extends React.Component {
-  render() {
-    return <p>Stats</p>;
-  }
-}
-
-class Help extends React.Component {
-  render() {
-    return <p>Help</p>;
   }
 }
 
