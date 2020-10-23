@@ -11,6 +11,7 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "react-webcam": "^5.2.1",
     "tailwindcss": "^1.8.12",
     "universal-cookie": "^4.0.4"
   },

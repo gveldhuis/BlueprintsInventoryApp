@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import Home from './Home';
 import Login from './Login';
+import Welcome from './Welcome';
 import Authentication from '../utils/Auth';
 import {
   getCookie,
@@ -115,18 +116,6 @@ class App extends React.Component {
           </Switch>
         </Authentication.Provider>
       </Router>
-    );
-  }
-}
-
-class Welcome extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>Welcome to app</h1>
-        <p>This is our mission</p>
-        <Link to="/">Join us</Link>
-      </div>
     );
   }
 }
