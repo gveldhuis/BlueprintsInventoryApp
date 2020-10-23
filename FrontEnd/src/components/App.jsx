@@ -4,7 +4,6 @@ import {
   Redirect,
   Switch,
   Route,
-  Link,
 } from 'react-router-dom';
 import Home from './Home';
 import Login from './Login';
@@ -40,7 +39,7 @@ class App extends React.Component {
 
     this.setState({
       isLoggedIn: userCookieSet && eventCookieSet,
-      firstLogin: !userCookieSet || !eventCookieSet,
+      firstLogin: !(userCookieSet && eventCookieSet),
       userid: (userCookieSet) ? userid : '',
       eventToken: (eventCookieSet) ? eventToken : '',
     });
@@ -95,7 +94,7 @@ class App extends React.Component {
       // Router allows app to use React routing
       // Authentication Provider allows entire app to access login state
       <Router>
-        <Authentication.Provider 
+        <Authentication.Provider
           value={{
             userid,
             eventToken,
