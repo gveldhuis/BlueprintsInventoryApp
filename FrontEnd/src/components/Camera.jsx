@@ -1,38 +1,36 @@
 import React from 'react';
+import Webcam from 'react-webcam';
 
-// Placeholder camera until actual Camera component is implemented
 class Camera extends React.Component {
-  render() {
-    return <p>Camera</p>;
-  }
-}
+  setRef = webcam => {
+    this.webcam = webcam;
+  };
 
-class CameraFeed extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  componentDidMount() {
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
-    if (navigator.getUserMedia) {
-      navigator.getUserMedia({video: true}, this.handleVideo, this.videoError);
-    }
-  }
-  handleVideo (stream) {
-    // Update the state, triggering the component to re-render with the correct stream
-    this.setState({ videoSrc: window.URL.createObjectURL(stream) });
-    this.videoElement.play();
-  }
-  videoError() {
-  }
+  capture = () => {
+    const imageSrc = this.webcam.getScreenshot();
+  };
+
   render() {
-    const video = (<video id="video" width="640" height="480" className="cameraFrame" src={this.state.videoSrc} autoPlay="true"
-      ref={(input) => { this.videoElement = input; }}></video>);
+    const videoConstraints = {
+      width: 1280,
+      height: 720,
+      facingMode: "user"
+    };
+
     return (
       <div>
-        {video}
+        <Webcam
+          audio={false}
+          height={500}
+          ref={this.setRef}
+          screenshotFormat="image/jpeg"
+          width={900}
+          videoConstraints={videoConstraints}
+        />
+        <button onClick={this.capture}>Capture photo</button>
       </div>
     );
   }
 }
 
-export default Camera;
+ export default Camera;
