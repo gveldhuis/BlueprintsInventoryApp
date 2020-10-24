@@ -1,5 +1,5 @@
 import React from 'react';
-import Authentication from '../utils/Auth';
+import Authentication from 'utils/Auth';
 
 class Login extends React.Component {
   constructor(props) {
@@ -34,7 +34,7 @@ class Login extends React.Component {
         <Authentication.Consumer>
           {(auth) => (
             <form onSubmit={(event) => this.handleSubmit(event, auth.setLogin)}>
-            <img src={require('./Login/logo192.png')} alt = "Logo" />
+            <img src={require('assets/images/logo192.png')} alt = "Logo" />
               <label>
             First Name:
             <input 
