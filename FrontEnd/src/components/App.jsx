@@ -8,12 +8,12 @@ import {
 import Home from './Home';
 import Login from './Login';
 import Welcome from './Welcome';
-import Authentication from '../utils/Auth';
+import Authentication from 'utils/Auth';
 import {
   getSession,
   setSession,
   clearSession,
-} from '../utils/session_utils';
+} from 'utils/session_utils';
 
 const cookieName = 'b4p_session';
 
