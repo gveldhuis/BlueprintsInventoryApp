@@ -34,7 +34,7 @@ class Login extends React.Component {
         <Authentication.Consumer>
           {(auth) => (
             <form onSubmit={(event) => this.handleSubmit(event, auth.setLogin)}>
-            <img src={require('assets/images/logo192.png')} alt = "Logo" />
+            <img src={require('assets/images/Blueprints_Logo3.png')} alt = "Logo" />
               <label>
             First Name:
             <input 
