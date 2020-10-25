@@ -20,6 +20,7 @@ module.exports = {
         med_blue: '#003296',
         dark_blue: '#00193c',
         grey: '#bdbbbb',
+        white: '#fff',
       },
     }
   },
