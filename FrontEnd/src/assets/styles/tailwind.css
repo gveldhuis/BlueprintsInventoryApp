@@ -1,5 +1,36 @@
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
+
+
+.space_out {
+  @apply px-md py-sm m-sm;
+}
+
+.page_header {
+  @apply text-5xl text-center text-med_blue;
+}
+
+.section_header {
+  @apply text-3xl text-med_blue;
+}
+
+.paragraph { 
+  @apply text-xl text-dark_blue;
+}
+
+.pill_button {
+  @apply bg-dark_blue text-white rounded-full px-md py-sm;
+}
+
+.pill_button:hover {
+  @apply bg-light_blue;
+}
+
+.pill_button:focus {
+  @apply outline-none;
+}
+
+.bottom_nav {
+  @apply flex justify-evenly bg-dark_blue text-white px-md rounded-t-5xl;
+}
