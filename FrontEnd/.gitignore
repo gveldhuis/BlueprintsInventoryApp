@@ -10,7 +10,7 @@
 
 # production
 /build
-/src/assets/main.css
+/src/assets/styles/main.css
 
 # misc
 .DS_Store
