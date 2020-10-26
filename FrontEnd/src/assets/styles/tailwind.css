@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    font-family: font-avenir;
+  }
+}
 
 .space_out {
   @apply px-md py-sm m-sm;
@@ -32,5 +37,9 @@
 }
 
 .bottom_nav {
-  @apply flex justify-evenly bg-dark_blue text-white px-md rounded-t-5xl;
+  @apply flex justify-evenly bg-dark_blue px-md rounded-t-5xl;
+}
+
+.active_link {
+  @apply text-white !important;
 }
