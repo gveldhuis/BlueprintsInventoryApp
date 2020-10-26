@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  body {
+  @font-face {
     font-family: font-avenir;
   }
 }
