@@ -5,7 +5,7 @@ import Utf8 from 'crypto-js/enc-utf8';
 const cookies = new Cookies();
 const key = process.env.REACT_APP_COOKIE_KEY;
 
-export const getSession = (name) => {
+export function getSession(name) {
   const cookie = cookies.get(name);
   if (cookie === undefined) {
     return null;
@@ -14,10 +14,10 @@ export const getSession = (name) => {
   }
 }
 
-export const setSession = (name, value) => {
+export function setSession(name, value) {
   cookies.set(name, AES.encrypt(value, key).toString());
 };
 
-export const clearSession = (name) => {
+export function clearSession(name){
   cookies.remove(name);
 }
