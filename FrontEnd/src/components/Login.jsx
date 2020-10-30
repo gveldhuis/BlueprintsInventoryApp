@@ -1,5 +1,12 @@
 import React from 'react';
+import { 
+  Formik,
+  Form, 
+  Field,
+  ErrorMessage,
+} from 'formik';
 import Authentication from 'utils/Auth';
+import * as Yup from 'yup';
 
 class Login extends React.Component {
   constructor(props) {
@@ -23,13 +30,11 @@ class Login extends React.Component {
   	)
   }
 
-  handleSubmit(event, login) {
-    event.preventDefault();
+  handleSubmit(login) {
     login("test_userid", "test_eventToken");
   }
 
   render() {
-    //const { value } = this.state;
     return (
         <Authentication.Consumer>
           {(auth) => (
@@ -47,91 +52,55 @@ class Login extends React.Component {
               </div>
 
               <div className="flex justify-center items-start h-2/5">
-                
-                <form 
-                  onSubmit={(event) => this.handleSubmit(event, auth.setLogin)} 
-                  className="w-11/12"
+                <Formik
+                  initialValues={{
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    eventName: '',
+                    orgName: '',
+                    eventPassword: '',
+                  }}
+                  validationSchema={Yup.object({
+                    firstName: Yup.string().required('Required'),
+                    lastName: Yup.string().required('Required'),
+                    email: Yup.string().email("Invalid email address").required("Required"),
+                    eventName: Yup.string().required("Required,"),
+                    orgName: Yup.string().required("Required,"),
+                    eventPassword: Yup.string().required("Required"),
+                  })}
+                  onSubmit={(values, { setSubmitting }) => {
+                    this.handleSubmit(values.first)
+                  }}
                 >
-                  <div className="flex items-center my-sm whitespace-no-wrap">
-                    <div className="w-1/3">
-                      <label className="block text-right mx-md">
-                        First Name
-                      </label>
-                    </div>
-                    <div className="w-2/3">
-                      <input 
-                        name="firstname"
-                        type="text" 
-                        value={this.state.firstname} 
-                        onChange={this.handleChange} 
-                        placeholder="First"
-                        className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
-                      />
-                    </div>
-                  </div>
+                  <Form>
+                    <label htmlFor="firstName">First Name</label>
+                    <Field name="firstName" type="text" />
+                    <ErrorMessage name="firstName" />
 
-                  <div className="flex items-center my-sm whitespace-no-wrap">
-                    <div className="w-1/3">
-                      <label className="block text-right mx-md">
-                        Last Name
-                      </label>
-                    </div>
-                    <div className="w-2/3">
-                      <input 
-                        name = "lastname"
-                        type="text" 
-                        value={this.state.lastname}
-                        onChange={this.handleChange}
-                        placeholder="Last"
-                        className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"  
-                      />
-                    </div>
-                  </div>
+                    <label htmlFor="lastName">Last Name</label>
+                    <Field name="lastName" type="text" />
+                    <ErrorMessage name="lastName" />
 
-                  <div className="flex items-center my-sm whitespace-no-wrap">
-                    <div className="w-1/3">
-                      <label className="block text-right mx-md">
-                        Email
-                      </label>
-                    </div>
-                    <div className="w-2/3">
-                      <input 
-                        name = "email"
-                        type = "text"
-                        value={this.state.email}
-                        onChange={this.handleChange}
-                        placeholder="email@domain"
-                        className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
-                      />
-                    </div>
-                  </div>
+                    <label htmlFor="email">Email</label>
+                    <Field name="email" type="text" />
+                    <ErrorMessage name="email" />
 
-                  <div className="flex items-center my-sm whitespace-no-wrap">
-                    <div className="w-1/3">
-                      <label className="block text-right mx-md">
-                        Event Token
-                      </label>
-                    </div>
-                    <div className="w-2/3">
-                      <input 
-                        name = "eventpass"
-                        type = "text"
-                        value={this.state.eventpass}
-                        onChange={this.handleChange}
-                        placeholder="sdkfa2938"
-                        className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
-                      />
-                    </div>
-                  </div>
+                    <label htmlFor="eventName">Event Name</label>
+                    <Field name="eventName" type="select" />
+                    <ErrorMessage name="eventName" />
 
-                  <div className="flex justify-center pt-md">
-                    <input
-                      type="submit"
-                      value="Login"
-                      className="pill_button w-full"
-                    />
-                  </div>
-                </form>
+                    <label htmlFor="orgName">Organization</label>
+                    <Field name="orgName" type="select" />
+                    <ErrorMessage name="orgName" />
+
+                    <label htmlFor="eventPassword">Password</label>
+                    <Field name="eventPassword" type="text" />
+                    <ErrorMessage name="eventPassword" />
+
+                    <button type="submit" value="Login">Log In</button>
+                  </Form>
+                </Formik>
               </div>
             </div>
           )}
