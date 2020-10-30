@@ -4,20 +4,18 @@ import {
   Redirect,
   Switch,
   Route,
-  Link,
 } from 'react-router-dom';
 import Home from './Home';
 import Login from './Login';
 import Welcome from './Welcome';
-import Authentication from '../utils/Auth';
+import Authentication from 'utils/Auth';
 import {
-  getCookie,
-  setCookie,
-  removeCookie,
-} from '../utils/session_utils';
+  getSession,
+  setSession,
+  clearSession,
+} from 'utils/session_utils';
 
-const useridCookieName = 'userid';
-const eventTokenCookieName = 'eventToken';
+const cookieName = 'b4p_session';
 
 class App extends React.Component {
   constructor(props) {
@@ -26,41 +24,42 @@ class App extends React.Component {
       isLoggedIn: false,
       firstLogin: true,
       userid: '',
-      eventToken: '',
+      eventPassword: '',
     };
     this.setLogin = this.setLogin.bind(this);
     this.clearLogin = this.clearLogin.bind(this);
   }
 
   componentDidMount() {
-    const userid = getCookie(useridCookieName);
-    const eventToken = getCookie(eventTokenCookieName);
-    const userCookieSet = userid !== undefined;
-    const eventCookieSet = eventToken !== undefined;
+    console.log(getSession(cookieName));
+    const session = JSON.parse(getSession(cookieName));
+    const sessionIsSet = session !== null;
 
     this.setState({
-      isLoggedIn: userCookieSet && eventCookieSet,
-      firstLogin: !userCookieSet || !eventCookieSet,
-      userid: (userCookieSet) ? userid : '',
-      eventToken: (eventCookieSet) ? eventToken : '',
+      isLoggedIn: sessionIsSet,
+      firstLogin: !sessionIsSet,
+      userid: (sessionIsSet) ? session['userid'] : '',
+      eventPassword: (sessionIsSet) ? session['eventPassword'] : '',
     });
   }
 
-  setLogin(userid, eventToken) {
-    setCookie(useridCookieName, userid);
-    setCookie(eventTokenCookieName, eventToken);
+  setLogin(userid, eventPassword) {
+    const value = {
+      userid,
+      eventPassword,
+    };
+    setSession(cookieName, JSON.stringify(value));
 
     this.setState({
       isLoggedIn: true,
       firstLogin: true,
       userid,
-      eventToken,
+      eventPassword,
     });
   }
 
   clearLogin() {
-    removeCookie(useridCookieName);
-    removeCookie(eventTokenCookieName);
+    clearSession(cookieName);
 
     this.setState({
       isLoggedIn: false,
@@ -95,7 +94,7 @@ class App extends React.Component {
       // Router allows app to use React routing
       // Authentication Provider allows entire app to access login state
       <Router>
-        <Authentication.Provider 
+        <Authentication.Provider
           value={{
             userid,
             eventToken,
