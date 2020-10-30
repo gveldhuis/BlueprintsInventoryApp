@@ -38,7 +38,7 @@ class Login extends React.Component {
                 <img
                   src={require('assets/images/Blueprints_Logo2.png')} 
                   alt = "Logo"
-                  className="w-10/12 object-contain"
+                  className="w-10/12 max-w-xs object-contain"
                 />
               </div>
               
