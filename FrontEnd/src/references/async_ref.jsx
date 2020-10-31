@@ -49,6 +49,10 @@ class AsyncRef extends React.Component {
 
   render() {
     const { data, waitingForData } = this.state;
+
+    // Depending on if we've received the data or not, we render a loading message
+    // or the actual data - in this case, we'll render Loading... for 2 seconds
+    // until we get the data at which point setState gets called and we re-render
     let text;
     if (waitingForData) {
       text = <p>Loading...</p>;
