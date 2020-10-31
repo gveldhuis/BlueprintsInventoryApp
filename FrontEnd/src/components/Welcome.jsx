@@ -7,18 +7,49 @@ class Stats extends React.Component {
   render() {
     return (
       <div className="h-screen">
-        <div className="flex h-2/5 items-end justify-center">
-          <h1 className="page_header font-semibold">Welcome!</h1>
+        <div className="flex h-1/5 items-end justify-center">
+          <h1 className="text-6xl page_header font-semibold">Welcome!</h1>
         </div>
-        <div className="flex h-1/5 items-center justify-center my-md mx-md">
-          <p className="paragraph text-center">
-            Thank you so much for your hard work and dedication. With your help 
-            we will be able to help the hospitals of the world better serve their
-            patients with quality medical supplies
+        <div className="flex h-3/5 items-center justify-center my-md mx-md py-lg">
+          <p className="text-3xl paragraph text-center w-1/4">
+          Welcome to our
+          Blueprints For
+          Pangaea Inventory
+          Event! Thanks to
+          volunteers like you,
+          Blueprints is able to
+          donate nearly $1M
+          worth of medical
+          supplies every year
+          to those that need
+          them most.
           </p>
         </div>
-        <div className="flex h-2/5 items-start justify-center">
-          <Link to="/" className="pill_button">Let's begin!</Link>
+        <div className="flex h-3/5 items-center justify-center my-md mx-md pb-xl">
+          <p className="text-3xl paragraph text-center w-1/4">
+          Our founder, Ben
+          Rathi, often said
+          that “A single
+          needle can save a
+          life.” With the
+          supplies you are
+          going to inventory,
+          your are helping us
+          change thousands
+          of lives.
+          </p>
+        </div>
+        <div className="flex h-1/6 items-end justify-center pb-xl">
+          <div className="flex justify-center items-end h-1/6">
+                <img
+                  src={require('assets/images/Blueprints_Logo4.png')} 
+                  alt = "Logo"
+                  className="w-1/6 object-contain"
+                />
+              </div>
+        </div>
+        <div className="sticky bottom-0 flex h-1/12 items-start justify-center">
+          <Link to="/" className="rounded-b-none rounded-t-5xl pill_button w-1/4 text-center text-4xl py-md">Let's begin!</Link>
         </div>
       </div>
     );
