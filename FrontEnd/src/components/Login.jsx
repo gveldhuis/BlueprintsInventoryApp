@@ -30,7 +30,9 @@ class Login extends React.Component {
   	)
   }
 
-  handleSubmit(login) {
+  // handleSubmit is passed the login callback from inside render because we
+  // only have access to the login callback from within Authentication.Consumer 
+  handleSubmit(login, formValues) {
     login("test_userid", "test_eventToken");
   }
 
@@ -47,7 +49,7 @@ class Login extends React.Component {
                 />
               </div>
               
-              <div className="flex justify-center items-center py-sm">
+              <div className="flex justify-center py-sm">
                 <h1 className="section_header font-semibold text-dark_blue">Log In</h1>
               </div>
 
@@ -64,41 +66,129 @@ class Login extends React.Component {
                   validationSchema={Yup.object({
                     firstName: Yup.string().required('Required'),
                     lastName: Yup.string().required('Required'),
-                    email: Yup.string().email("Invalid email address").required("Required"),
-                    eventName: Yup.string().required("Required,"),
-                    orgName: Yup.string().required("Required,"),
+                    email: Yup.string().email("Invalid email").required("Required"),
+                    eventName: Yup.string().required("Required"),
+                    orgName: Yup.string().required("Required"),
                     eventPassword: Yup.string().required("Required"),
                   })}
-                  onSubmit={(values, { setSubmitting }) => {
-                    this.handleSubmit(values.first)
+                  onSubmit={(values) => {
+                    this.handleSubmit(auth.setLogin, values);
                   }}
                 >
-                  <Form>
-                    <label htmlFor="firstName">First Name</label>
-                    <Field name="firstName" type="text" />
-                    <ErrorMessage name="firstName" />
+                  <Form className="w-11/12">
+                    <div className="flex items-center my-sm">
+                      <div className="w-1/3 whitespace-no-wrap">
+                        <label htmlFor="firstName" className="block text-right mx-sm font-semibold">
+                          First Name
+                        </label>
+                      </div>
+                      <div className="w-1/2">
+                        <Field 
+                          name="firstName"
+                          type="text"
+                          className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                        />
+                      </div>
+                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
+                        <ErrorMessage name="firstName"/>
+                      </div>
+                    </div>
 
-                    <label htmlFor="lastName">Last Name</label>
-                    <Field name="lastName" type="text" />
-                    <ErrorMessage name="lastName" />
+                    <div className="flex items-center  my-sm">
+                      <div className="w-1/3 whitespace-no-wrap">
+                        <label htmlFor="lastName" className="block text-right mx-sm font-semibold">
+                          Last Name
+                        </label>
+                      </div>
+                      <div className="w-1/2">
+                        <Field
+                          name="lastName"
+                          type="text"
+                          className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                        />
+                      </div>
+                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
+                          <ErrorMessage name="lastName" />
+                        </div>
+                    </div>
 
-                    <label htmlFor="email">Email</label>
-                    <Field name="email" type="text" />
-                    <ErrorMessage name="email" />
+                    <div className="flex items-center  my-sm">
+                      <div className="w-1/3 whitespace-no-wrap">
+                        <label htmlFor="email" className="block text-right mx-sm font-semibold">
+                          Email
+                        </label>
+                      </div>
+                      <div className="w-1/2">
+                        <Field
+                          name="email"
+                          type="text"
+                          className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                        />
+                      </div>
+                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
+                          <ErrorMessage name="email" />
+                        </div>
+                    </div>
 
-                    <label htmlFor="eventName">Event Name</label>
-                    <Field name="eventName" type="select" />
-                    <ErrorMessage name="eventName" />
+                    <div className="flex items-center  my-sm">
+                      <div className="w-1/3 whitespace-no-wrap">
+                        <label htmlFor="eventName" className="block text-right mx-sm font-semibold">
+                          Event Name
+                        </label>
+                      </div>
+                      <div className="w-1/2">
+                        <Field
+                          name="eventName"
+                          type="select"
+                          className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                        />
+                      </div>
+                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
+                          <ErrorMessage name="eventName" />
+                        </div>
+                    </div>
 
-                    <label htmlFor="orgName">Organization</label>
-                    <Field name="orgName" type="select" />
-                    <ErrorMessage name="orgName" />
+                    <div className="flex items-center  my-sm">
+                      <div className="w-1/3 whitespace-no-wrap">
+                        <label htmlFor="orgName" className="block text-right mx-sm font-semibold">
+                          Organization
+                        </label>
+                      </div>
+                      <div className="w-1/2">
+                        <Field
+                          name="orgName"
+                          type="select"
+                          className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                        />
+                      </div>
+                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
+                          <ErrorMessage name="orgName" />
+                        </div>
+                    </div>
 
-                    <label htmlFor="eventPassword">Password</label>
-                    <Field name="eventPassword" type="text" />
-                    <ErrorMessage name="eventPassword" />
-
-                    <button type="submit" value="Login">Log In</button>
+                    <div className="flex items-center my-sm">
+                      <div className="w-1/3 whitespace-no-wrap">
+                        <label htmlFor="eventPassword" className="block text-right mx-sm font-semibold">
+                          Password
+                        </label>
+                      </div>
+                      <div className="w-1/2">
+                        <Field
+                          name="eventPassword"
+                          type="text"
+                          className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                        />
+                      </div>
+                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
+                          <ErrorMessage name="eventPassword" />
+                        </div>
+                    </div>
+                    
+                    <div className="flex justify-center">
+                      <button type="submit" value="Login" className="pill_button w-1/4">
+                        Log In
+                      </button>
+                    </div>
                   </Form>
                 </Formik>
               </div>
