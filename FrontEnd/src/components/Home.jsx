@@ -7,7 +7,7 @@ import {
 import Navbar from './Navbar';
 import Help from './Help';
 import Stats from './Stats';
-import Camera from './Camera';
+import WebCam from './Camera';
 
 class Home extends React.Component {
   render() {
@@ -19,7 +19,7 @@ class Home extends React.Component {
             <Stats />
           </Route>
           <Route path="/camera">
-            <Camera />
+            <WebCam />
           </Route>
           <Route path="/help">
             <Help />
