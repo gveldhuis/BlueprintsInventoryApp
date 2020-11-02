@@ -20,27 +20,19 @@ const cookieName = 'b4p_session';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isLoggedIn: false,
-      firstLogin: true,
-      userid: '',
-      eventPassword: '',
-    };
-    this.setLogin = this.setLogin.bind(this);
-    this.clearLogin = this.clearLogin.bind(this);
-  }
-
-  componentDidMount() {
-    console.log(getSession(cookieName));
+    
+    // Read cookies
     const session = JSON.parse(getSession(cookieName));
     const sessionIsSet = session !== null;
 
-    this.setState({
+    this.state = {
       isLoggedIn: sessionIsSet,
       firstLogin: !sessionIsSet,
       userid: (sessionIsSet) ? session['userid'] : '',
       eventPassword: (sessionIsSet) ? session['eventPassword'] : '',
-    });
+    };
+    this.setLogin = this.setLogin.bind(this);
+    this.clearLogin = this.clearLogin.bind(this);
   }
 
   setLogin(userid, eventPassword) {
