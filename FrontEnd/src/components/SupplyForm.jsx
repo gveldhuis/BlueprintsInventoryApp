@@ -2,13 +2,25 @@ import React from 'react';
 import FORM_PAGES from 'utils/ScanFormPages';
 
 class SupplyForm extends React.Component {
+  /*
+  Props:
+  - setFormPage() callback function
+  - setSupplyFormData() callback function 
+
+  State: None
+
+  Functons:
+  - cancel(): Sets page to SupplyList
+  - handleSubmit(): calls setSupplyItem() and sets page to InventoryForm
+  */
+
   constructor(props) {
     super(props);
-    this.next = this.next.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.cancel = this.cancel.bind(this);
   }
 
-  next() {
+  handleSubmit(formValues) {
     this.props.setFormPage(FORM_PAGES.INVENTORY_FORM);
   }
   
@@ -16,6 +28,13 @@ class SupplyForm extends React.Component {
     this.props.setFormPage(FORM_PAGES.SUPPLY_LIST);
   }
 
+  /*
+  TODO: Render a Formik form (see Login.jsx for reference) with the following fields:
+        - Supply Name
+        - Brand
+        - Reference Number
+        Also render a cancel button
+  */
   render() {
     return(
       <div>
