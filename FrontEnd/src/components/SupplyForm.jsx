@@ -73,7 +73,7 @@ class SupplyForm extends React.Component {
                     refNumber: Yup.string().required("Required"),
                   })}
                   onSubmit={(values) => {
-                    this.handleSubmit(auth.setLogin, values);
+                    this.handleSubmit(values);
                   }}
                 >
                   <Form className="w-11/12">
@@ -132,11 +132,11 @@ class SupplyForm extends React.Component {
                     </div>
                     
                     <div className="flex justify-center">
+                      <button onClick={this.back} type="cancel" value="Cancel" className="pill_button w-1/6">
+                        Cancel
+                      </button>
                       <button type="submit" value="Submit" className="pill_button w-1/6">
                         Submit
-                      </button>
-                      <button type="cancel" value="Cancel" className="pill_button w-1/6">
-                        Cancel
                       </button>
                     </div>
                   </Form>
