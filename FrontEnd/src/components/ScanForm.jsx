@@ -10,21 +10,13 @@ class ScanForm extends React.Component {
     this.state = {
       currentPage: FORM_PAGES.SUPPLY_LIST,
       supplyList: [],
-      registerSupplyFormData: {
-        supplyName: "",
-        supplyBrand: "",
-        refNumber: "",
+      supplyItem: {
+        id: 0,
+        ref_number: "",
+        brand: "",
+        name: "",
+        category: "",
       },
-      inventoryFormData: {
-        supplyName: "",
-        supplyID: "",
-        amount: 0,
-        expirationDate: {
-          year: 0,
-          month: 1,
-          day: 1,
-        },
-      }
     };
     this.setFormPage = this.setFormPage.bind(this);
   }
@@ -34,6 +26,9 @@ class ScanForm extends React.Component {
       currentPage: page,
     });
   }
+
+  // TODO: Go through sub-components and make sure the appropriate props/callback
+  // exist and are being passed down
 
   render() {
     const { currentPage } = this.state;

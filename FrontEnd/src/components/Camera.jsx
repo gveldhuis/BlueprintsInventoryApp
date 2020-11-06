@@ -1,36 +1,27 @@
 import React from 'react';
-import Webcam from 'react-webcam';
+import Camera from 'react-html5-camera-photo';
+import 'react-html5-camera-photo/build/css/index.css';
 
-class Camera extends React.Component {
-  setRef = webcam => {
-    this.webcam = webcam;
-  };
-
-  capture = () => {
-    const imageSrc = this.webcam.getScreenshot();
-  };
+class WebCam extends React.Component {
+  /*
+  Props:
+  - toggleCamera callback function
+  - scanImage callback function
+  */
 
   render() {
-    const videoConstraints = {
-      width: 1280,
-      height: 720,
-      facingMode: "user"
-    };
+    function handleTakePhoto (dataUri) {
+      console.log('takePhoto');
+    }
 
     return (
-      <div>
-        <Webcam
-          audio={false}
-          height={500}
-          ref={this.setRef}
-          screenshotFormat="image/jpeg"
-          width={900}
-          videoConstraints={videoConstraints}
-        />
-        <button onClick={this.capture}>Capture photo</button>
-      </div>
+      <Camera
+        onTakePhoto = { (dataUri) => { handleTakePhoto(dataUri); } }
+        // isFullscreen = {true} the stretching is tooo much for me
+        imageCompression = {0.5}
+      />
     );
   }
 }
 
- export default Camera;
+ export default WebCam;
