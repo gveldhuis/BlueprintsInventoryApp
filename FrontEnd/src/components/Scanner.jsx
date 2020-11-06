@@ -1,5 +1,7 @@
 import React from 'react';
 import WebCam from './Camera';
+import ScanForm from './ScanForm';
+import Tesseract from 'tesseract.js';
 
 class Scanner extends React.Component {
   constructor(props){
@@ -8,15 +10,32 @@ class Scanner extends React.Component {
       showCamera: true,
       imageText: '',
     };
+    this.toggleCamera = this.toggleCamera.bind(this);
+    this.scanImage = this.scanImage.bind(this);
   }
 
-  // TODO:
-  //    - Conditionally render Camera or ScanForm based on state
-  //    - Add callBack function to set showCamera state and pass to Camera and ScanForm
+  toggleCamera() {
+    this.setState((prevState) => ({
+      showCamera: !prevState.showCamera
+    }));
+  }
+
+  scanImage() {
+    // TODO: Implement this
+  }
+
   render() {
-    return (
-      <WebCam />
-    );
+    const { showCamera, imageText } = this.state;
+
+    if (showCamera) {
+      return (
+        <WebCam toggleCamera={this.toggleCamera} scanImage={this.scanImage} />
+      );
+    } else {
+      return (
+        <ScanForm toggleCamera={this.toggleCamera} imageText={imageText} />
+      );
+    }
   }
 }
 
