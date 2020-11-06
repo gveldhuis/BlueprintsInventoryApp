@@ -1,5 +1,5 @@
 export async function getEvents() {
-  const response = await fetch("http://52.188.114.62:80/api/events/", { method="GET" });
+  const response = await fetch("http://52.188.114.62:80/api/events/", { method: "GET" });
   const json = await response.json();
   return json.data;
 }
@@ -9,7 +9,7 @@ export async function getOrganizations(eventID) {
   const response = await fetch(
     "http://52.188.114.62:80/api/organizations/", 
     { 
-      method="GET",
+      method: "GET",
       headers: {
         'Content-Type': 'application/json',
       },
@@ -32,7 +32,7 @@ export async function registerVolunteer(eventID, password, organization, first, 
   const response = await fetch(
     "http://52.188.114.62:80/api/register_volunteer/", 
     { 
-      method="POST",
+      method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
@@ -58,7 +58,7 @@ export async function registerInventory(volunteerID, password, supplyID, amount,
   const response = await fetch(
     "http://52.188.114.62:80/api/register_inventory/", 
     {
-      method="POST",
+      method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
@@ -80,7 +80,7 @@ export async function registerSupply(volunteerID, password, name, brand, refNumb
   const response = await fetch(
     "http://52.188.114.62:80/api/register_supply/", 
     {
-      method="POST",
+      method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
@@ -100,7 +100,7 @@ export async function getSupplies(volunteerID, password, imageText) {
   const response = await fetch(
     "http://52.188.114.62:80/api/search_supply/", 
     {
-      method="GET",
+      method: "GET",
       headers: {
         'Content-Type': 'application/json',
       },
@@ -119,7 +119,7 @@ export async function getUserStats(volunteerID, password) {
   const response = await fetch(
     "http://52.188.114.62:80/api/stats/", 
     {
-      method="GET",
+      method: "GET",
       headers: {
         'Content-Type': 'application/json',
       },
