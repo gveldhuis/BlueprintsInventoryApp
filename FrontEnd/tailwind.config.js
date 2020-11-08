@@ -15,12 +15,24 @@ module.exports = {
         '4xl': '2rem',
         '5xl': '2.5rem',
       },
+      inset: {
+        // Offset to account for navbar
+        'nav' : '6rem',
+      },
+      screens: {
+        // media breakpoint for when width is greater than height
+        'landscape': {'raw': '(orientation: landscape)'},
+      },
       height: {
         '1/4' : '25%',
         '1/2' : '50%',
         '3/4' : '75%',
         '1/5' : '20%',
         '2/5' : '40%',
+      },
+      fontSize : {
+        '8xl' : '6rem',
+        '10xl' : '8rem',
       },
       colors: {
         light_blue: '#015eea',
@@ -30,5 +42,8 @@ module.exports = {
         white: '#fff',
       },
     }
+  },
+  variants: {
+    textColor: ['responsive', 'active'],
   },
 }
