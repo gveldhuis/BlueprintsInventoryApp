@@ -11,8 +11,8 @@ import {
 export default function Help() {
     return (
         <div>
-          <h1 className="page_header text-6xl">Help Page</h1>
-          <Accordion allowZeroExpanded='true' className="h-screen">
+          <h1 className="page_header text-6xl mb-md">Help Page</h1>
+          <Accordion allowZeroExpanded='true'>
                 <AccordionItem>
                     <AccordionItemHeading className="bg-dark_blue text-center text-white text-3xl">
                         <AccordionItemButton className="py-md">
@@ -20,43 +20,43 @@ export default function Help() {
                         </AccordionItemButton>
                     </AccordionItemHeading>
                     <AccordionItemPanel>
-                        <p>
+                        <p className="text-lg py-md px-md bg-gray-100">
                           This is the placeholder text for the instructions to get started with this application.
                         </p>
                     </AccordionItemPanel>
                 </AccordionItem>
               <AccordionItem>
-                  <AccordionItemHeading>
-                      <AccordionItemButton>
+                  <AccordionItemHeading className="bg-med_blue text-center text-white text-3xl">
+                      <AccordionItemButton className="py-md">
                           Camera Basics
                       </AccordionItemButton>
                   </AccordionItemHeading>
                   <AccordionItemPanel>
-                      <p>
+                      <p className="text-lg py-md px-md bg-gray-100">
                         This is the placeholder text for all the information about the Camera that you need to know before you get started.
                       </p>
                   </AccordionItemPanel>
               </AccordionItem>
               <AccordionItem>
-                  <AccordionItemHeading>
-                      <AccordionItemButton>
+                  <AccordionItemHeading className="bg-light_blue text-center text-white text-3xl">
+                      <AccordionItemButton className="py-md">
                           Using the Camera
                       </AccordionItemButton>
                   </AccordionItemHeading>
                   <AccordionItemPanel>
-                      <p>
+                      <p className="text-lg py-md px-md bg-gray-100">
                         This is the placeholder text for the instructions on how to use the Camera that we have implemented.
                       </p>
                   </AccordionItemPanel>
               </AccordionItem>
               <AccordionItem>
-                  <AccordionItemHeading>
-                      <AccordionItemButton>
+                  <AccordionItemHeading className="bg-grey text-center text-white text-3xl">
+                      <AccordionItemButton className="py-md">
                           No label?
                       </AccordionItemButton>
                   </AccordionItemHeading>
                   <AccordionItemPanel>
-                      <p>
+                      <p className="text-lg py-md px-md bg-gray-100">
                         This is the placeholder text for the instructions that follow if the item you are trying to categorize has no label.
                       </p>
                   </AccordionItemPanel>
