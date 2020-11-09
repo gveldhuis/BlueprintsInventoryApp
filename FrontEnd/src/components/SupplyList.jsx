@@ -33,7 +33,10 @@ class SupplyList extends React.Component {
 
   handleClick(index) {
     // TODO: call setSupplyItem(index);
-    this.props.setFormPage(FORM_PAGES.INVENTORY_FORM);
+    if (this.props.supplyList != null) {
+      this.props.setSupplyItem(this.props.supplyList[index]);
+      this.props.setFormPage(FORM_PAGES.INVENTORY_FORM);
+    }
   }
   
   back() {
@@ -50,11 +53,18 @@ class SupplyList extends React.Component {
         Beneath the list, render a back button and a registerNewSupply button.
   */
   render() {
+
+    const list = this.props.supplyList.map((item, index) =>
+  <li><button onClick={this.handleClick(index)}>{item.brand} {item.name} {item.ref_number}</button></li>
+    );
+
     return(
       <div>
         <h1>Supply List</h1>
+        <ul>{list}</ul>
         <button onClick={this.registerNewSupply}>Register New Supply</button>
         <button onClick={this.next}>Next</button>
+        <button onClick={this.back}>Back</button>
       </div>
     );
   }
