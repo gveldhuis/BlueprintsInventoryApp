@@ -7,6 +7,7 @@ import {
 } from 'formik';
 import Authentication from 'utils/Auth';
 import * as Yup from 'yup';
+import { getEvents } from 'utils/api_utils';
 
 class Login extends React.Component {
   constructor(props) {
@@ -16,7 +17,9 @@ class Login extends React.Component {
       email: '',
       eventpass: '',
       org: '',
-      event:''};
+      event:'',
+      events: {},
+      waitingForEvents: true};
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -36,7 +39,30 @@ class Login extends React.Component {
     login("test_userid", "test_eventToken");
   }
 
+  // If you have to retrieve data when creating a React component, you should
+  // do it in componentDidMount() - this is the function that runs after the
+  // React component has been mounted on the DOM tree and has been rendered once
+  componentDidMount() {
+    // We execute getEvents() which will run asynchronously and return a Promise which
+    // will eventually contain a value - we use .then(func) on the Promise to
+    // call func when the Promise contains a value, in this case to setState
+    getEvents()
+    .then((data) => {
+      this.setState({
+        events: data,
+        waitingForEvents: false,
+      })
+    })
+  }
+
   render() {
+    
+    let text;
+    if (waitingForEvents) {
+      text = <p>Loading...</p>;
+    } else {
+      
+    }
     return (
         <Authentication.Consumer>
           {(auth) => (
@@ -142,6 +168,9 @@ class Login extends React.Component {
                           type="select"
                           className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
                         />
+                         <Field as="select" name="event">
+                          <option>{events.name}</option>
+                        </Field>
                       </div>
                       <div className="w-1/6 text-red-600 font-normal italic mx-sm">
                           <ErrorMessage name="eventName" />
