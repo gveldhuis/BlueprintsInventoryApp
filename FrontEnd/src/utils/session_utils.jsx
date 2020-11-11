@@ -14,8 +14,9 @@ export function getSession(name) {
   }
 }
 
+// 14400 seconds = 4 hours
 export function setSession(name, value) {
-  cookies.set(name, AES.encrypt(value, key).toString(), {maxAge: 14400});
+  cookies.set(name, AES.encrypt(value, key).toString(), { maxAge: 14400 });
 };
 
 export function clearSession(name){

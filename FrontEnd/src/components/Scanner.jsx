@@ -1,5 +1,5 @@
 import React from 'react';
-import WebCam from './Camera';
+import CameraFeed from './Camera';
 import ScanForm from './ScanForm';
 import Tesseract from 'tesseract.js';
 
@@ -29,7 +29,7 @@ class Scanner extends React.Component {
 
     if (showCamera) {
       return (
-        <WebCam toggleCamera={this.toggleCamera} scanImage={this.scanImage} />
+        <CameraFeed toggleCamera={this.toggleCamera} scanImage={this.scanImage} />
       );
     } else {
       return (

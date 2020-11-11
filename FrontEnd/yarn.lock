@@ -6696,11 +6696,6 @@ jsesc@~0.5.0:
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
   integrity sha1-597mbjXW/Bb3EP6R1c9p9w8IkR0=
 
-jslib-html5-camera-photo@3.1.3:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/jslib-html5-camera-photo/-/jslib-html5-camera-photo-3.1.3.tgz#37008b64b539ad283c83a1de2724e8a6c4d0f6c6"
-  integrity sha512-8vJwX0a6o82+AJur7KntGvGLYhfxN5h7HRNd77zuoLOi3/Rd+5L47gL9MwTHdtWu3J3VC3a3MuC4KiW8l8HXzA==
-
 json-parse-better-errors@^1.0.1, json-parse-better-errors@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/json-parse-better-errors/-/json-parse-better-errors-1.0.2.tgz#bb867cfb3450e69107c131d1c514bab3dc8bcaa9"
@@ -9341,13 +9336,6 @@ react-fast-compare@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
-react-html5-camera-photo@^1.5.4:
-  version "1.5.4"
-  resolved "https://registry.yarnpkg.com/react-html5-camera-photo/-/react-html5-camera-photo-1.5.4.tgz#a2a8b979c1c2f91aba5de3273e8b08f328b714c7"
-  integrity sha512-uourTihaJQjqfqyE/Za/SV5DcUzvxOR7Rc85CyxuB+I7p1QpE84VDKyNkr+GweJ2KkbOvWLJ5gZrenRoXLA78g==
-  dependencies:
-    jslib-html5-camera-photo "3.1.3"
-
 react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -9441,6 +9429,11 @@ react-scripts@3.4.3:
     workbox-webpack-plugin "4.3.1"
   optionalDependencies:
     fsevents "2.1.2"
+
+react-webcam@^5.2.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/react-webcam/-/react-webcam-5.2.1.tgz#927f4542cdee1b21e1876e24feb9fd120655e2a3"
+  integrity sha512-3Bz6V75Dy9Ecv6hvhlR8JVP123iiceM143B5P5cym1v7vSLrNzCEZSPJqFIN05hHiT7BwtCtqs5mNoILSUQTpw==
 
 react@^16.13.1:
   version "16.13.1"
