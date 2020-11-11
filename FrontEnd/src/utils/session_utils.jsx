@@ -15,7 +15,7 @@ export function getSession(name) {
 }
 
 export function setSession(name, value) {
-  cookies.set(name, AES.encrypt(value, key).toString());
+  cookies.set(name, AES.encrypt(value, key).toString(), {maxAge: 14400});
 };
 
 export function clearSession(name){
