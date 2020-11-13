@@ -18,7 +18,7 @@ class Login extends React.Component {
       eventpass: '',
       org: '',
       event:'',
-      events: {},
+      events: [],
       waitingForEvents: true};
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -50,18 +50,19 @@ class Login extends React.Component {
     .then((data) => {
       this.setState({
         events: data,
-        waitingForEvents: false,
+        waitingForEvents: false
       })
     })
   }
 
   render() {
-    
     let text;
-    if (waitingForEvents) {
+    let eventDropdownItems;
+    if (this.waitingForEvents) {
       text = <p>Loading...</p>;
     } else {
-      
+      eventDropdownItems = this.state.events.map((eventData) => 
+        <option key={toString(eventData.event_name)}>{toString(eventData.event_name)}</option>)
     }
     return (
         <Authentication.Consumer>
@@ -169,7 +170,7 @@ class Login extends React.Component {
                           className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
                         />
                          <Field as="select" name="event">
-                          <option>{events.name}</option>
+                          <option>{eventDropdownItems}</option>
                         </Field>
                       </div>
                       <div className="w-1/6 text-red-600 font-normal italic mx-sm">
