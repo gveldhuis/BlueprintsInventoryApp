@@ -8,6 +8,7 @@ import {
 import Authentication from 'utils/Auth';
 import * as Yup from 'yup';
 import FORM_PAGES from 'utils/ScanFormPages';
+import { registerSupply } from 'utils/api_utils';
 
 class SupplyForm extends React.Component {
   /*
@@ -29,6 +30,7 @@ class SupplyForm extends React.Component {
   }
 
   handleSubmit(formValues) {
+    registerSupply(formValues.userid, formValues.eventToken, formValues.supplyName, formValues.brand, formValues.refNumber);
     this.props.setFormPage(FORM_PAGES.INVENTORY_FORM);
   }
   
