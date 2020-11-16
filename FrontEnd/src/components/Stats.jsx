@@ -1,58 +1,75 @@
 import React from 'react';
-import {
-  Link,
-} from 'react-router-dom';
+import Authentication from 'utils/Auth';
 
 class Stats extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      loading: true,
+      today: 0,
+      all_time: 0,
+    };
+  }
+  
+  componentDidMount() {
+    // TODO #1:
+    // Call api using auth values from this.props.auth
+    // Set today and all_time in state with response of api (Hint: use .then())
+  }
+
   render() {
+    const {loading, today, all_time} = this.state;
     return (
-      <div className="h-screen">
-        <div className="flex h-1/5 items-end justify-center">
-          <div className="flex justify-center items-end h-1/5">
-                <img
-                  src={require('assets/images/Blueprints_Logo4.png')} 
-                  alt = "Logo"
-                  className="w-1/12 object-contain"
-                />
-              </div>
-        </div>
-        <div className="h-1/10 flex items-end justify-center">
-        <h1 className="page_header font-semibold">Statistics</h1>
-        </div>
+      <Authentication.Consumer>
+        {(auth) => (
+          <div className="h-screen">
 
-        <div className="flex  items-center justify-center my-md mx-md">
-          <p className="text-2xl paragraph text-center">
-          Today, you have inventoried
-          </p>
-        </div>
-        <div className="flex  items-end justify-center">
-          <h1 className="page_header font-semibold">256</h1>
-        </div>
-        <div className="flex  items-center justify-center my-md mx-md">
-          <p className="text-2xl paragraph text-center">
-          medical supplies.
-          </p>
-        </div>
-        <div className="flex  items-center justify-center my-md mx-md">
-          <p className="text-2xl paragraph text-center">
-          Today, you have inventoried
-          </p>
-        </div>
-        <div className="flex items-end justify-center">
-          <h1 className="page_header font-semibold">1,850</h1>
-        </div>
-        <div className="flex justify-center items-end">
-
-              <div className="flex justify-center pt-md">
-                    <input
-                      type="submit"
-                      value="Log out"
-                      className="pill_button w-full "
-                    />
-                  </div>
-      </div></div>
-      
-       
+            <div className="flex justify-center items-center h-1/4">
+              <h1 className="page_header text-6xl">
+                Statistics
+              </h1>
+            </div>
+    
+            <div className="h-1/4 py-md">
+              <p className="text-2xl paragraph text-center">
+                Today, you have inventoried
+              </p>
+    
+              <h1 className="page_header font-semibold">
+                {/* TODO #2: If loading === true, display "..." else display all_time */}
+                {today}
+              </h1>
+    
+              <p className="text-2xl paragraph text-center">
+                medical supplies.
+              </p>
+            </div>
+    
+    
+            <div className="h-1/4 py-md">
+              <p className="text-2xl paragraph text-center">
+                In total, you have inventoried
+              </p>
+    
+              <h1 className="page_header font-semibold">
+                {/* TODO #2: If loading === true, display "..." else display all_time */}
+                {all_time}
+              </h1>
+    
+              <p className="text-2xl paragraph text-center">
+                medical supplies.
+              </p>
+            </div>
+    
+            <div className="flex justify-center items-start h-1/4 p-md">
+              {/* TODO #3: onClick, call this.props.auth.logout() */}
+              <button className="pill_button">
+                Log Out
+              </button>
+            </div>
+          </div>
+        )}
+      </Authentication.Consumer>
     );
   }
 }
