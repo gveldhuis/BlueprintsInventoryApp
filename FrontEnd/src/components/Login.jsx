@@ -12,58 +12,59 @@ import { getEvents } from 'utils/api_utils';
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {firstname: '', 
-      lastname: '',
-      email: '',
-      eventpass: '',
-      org: '',
-      event:'',
+    this.state = {
       events: [],
-      waitingForEvents: true};
-    this.handleChange = this.handleChange.bind(this);
+      orgs: [],
+      waitingForEvents: true,
+      eventSelected: false,
+      waitingForOrgs: true,
+      loggingIn: false,
+    };
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleChange(event) {
-    const target = event.target
-  	const value = target.value
-  	const name = target.name
-  	this.setState(
-  		{[name]: value}
-  	)
+  handleEventSelected(eventID) {
+    // TODO #1:
+    // Given the eventID, call the getOrganizations API 
+    // Set the returned data in state
+    // Set eventSelected to true
+    // Set waitingForOrgs to false
   }
 
   // handleSubmit is passed the login callback from inside render because we
   // only have access to the login callback from within Authentication.Consumer 
   handleSubmit(login, formValues) {
-    login("test_userid", "test_eventToken");
+    // TODO #3: 
+    // Set state.loggingIn to true
+    // Call the register_user API with formValues
+    // Call login() on the returned data from the API call 
   }
 
-  // If you have to retrieve data when creating a React component, you should
-  // do it in componentDidMount() - this is the function that runs after the
-  // React component has been mounted on the DOM tree and has been rendered once
   componentDidMount() {
-    // We execute getEvents() which will run asynchronously and return a Promise which
-    // will eventually contain a value - we use .then(func) on the Promise to
-    // call func when the Promise contains a value, in this case to setState
     getEvents()
     .then((data) => {
+      console.log(data);
       this.setState({
         events: data,
         waitingForEvents: false
       })
-    })
+    });
   }
 
   render() {
-    let text;
-    let eventDropdownItems;
-    if (this.waitingForEvents) {
-      text = <p>Loading...</p>;
-    } else {
-      eventDropdownItems = this.state.events.map((eventData) => 
-        <option key={toString(eventData.event_name)}>{toString(eventData.event_name)}</option>)
-    }
+    const { events, orgs, waitingForEvents, eventSelected, waitingForOrgs } = this.state;
+    
+    const eventDropdownItems = events.map((eventData) => (
+      <option key={eventData[0]} value={eventData[0]}>{eventData[1]}</option>
+    ));
+    
+    const orgDropdownItems = orgs.map((orgData) => (
+      // TODO #2:
+      // Fill this out similar to eventDropdownItems - note that orgData is going
+      // to be a list of (orgID, orgName) pairs - we need the option's value to be
+      // the ID because we need that when we submit the form
+    ));
+
     return (
         <Authentication.Consumer>
           {(auth) => (
@@ -82,27 +83,28 @@ class Login extends React.Component {
 
               <div className="flex justify-center items-start h-2/5">
                 <Formik
+                  enableReinitialize={false}
                   initialValues={{
                     firstName: '',
                     lastName: '',
                     email: '',
-                    eventName: '',
-                    orgName: '',
+                    eventID: '',
+                    orgID: '',
                     eventPassword: '',
                   }}
                   validationSchema={Yup.object({
                     firstName: Yup.string().required('Required'),
                     lastName: Yup.string().required('Required'),
                     email: Yup.string().email("Invalid email").required("Required"),
-                    eventName: Yup.string().required("Required"),
-                    orgName: Yup.string().required("Required"),
+                    eventID: Yup.number().required("Required"),
+                    orgID: Yup.number().required("Required"),
                     eventPassword: Yup.string().required("Required"),
                   })}
                   onSubmit={(values) => {
                     this.handleSubmit(auth.setLogin, values);
                   }}
                 >
-                  <Form className="w-11/12">
+                  {formProps => (<Form className="w-11/12">
                     <div className="flex items-center my-sm">
                       <div className="w-1/3 whitespace-no-wrap">
                         <label htmlFor="firstName" className="block text-right mx-sm font-semibold">
@@ -159,40 +161,53 @@ class Login extends React.Component {
 
                     <div className="flex items-center  my-sm">
                       <div className="w-1/3 whitespace-no-wrap">
-                        <label htmlFor="eventName" className="block text-right mx-sm font-semibold">
+                        <label htmlFor="eventID" className="block text-right mx-sm font-semibold">
                           Event Name
                         </label>
                       </div>
                       <div className="w-1/2">
                         <Field
-                          name="eventName"
-                          type="select"
+                          name="eventID"
+                          as="select"
+                          disabled={waitingForEvents}
+                          value={formProps.values.eventID}
+                          onChange={(field) => {
+                            // To run a function when an event is selected, we need to
+                            // override this Formik prop and manually set the field value
+                            // before we handle the change
+                            formProps.setFieldValue('eventID', field.target.value);
+                            this.handleEventSelected(field.target.value);
+                          }}
                           className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
-                        />
-                         <Field as="select" name="event">
-                          <option>{eventDropdownItems}</option>
+                        >
+                          <option value=""></option>
+                          {eventDropdownItems}
                         </Field>
                       </div>
                       <div className="w-1/6 text-red-600 font-normal italic mx-sm">
-                          <ErrorMessage name="eventName" />
+                          <ErrorMessage name="eventID" />
                         </div>
                     </div>
 
                     <div className="flex items-center  my-sm">
                       <div className="w-1/3 whitespace-no-wrap">
-                        <label htmlFor="orgName" className="block text-right mx-sm font-semibold">
+                        <label htmlFor="orgID" className="block text-right mx-sm font-semibold">
                           Organization
                         </label>
                       </div>
                       <div className="w-1/2">
                         <Field
-                          name="orgName"
-                          type="select"
+                          name="orgID"
+                          as="select"
+                          disabled={waitingForOrgs}
                           className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
-                        />
+                        >
+                          <option value="">{eventSelected ? "" : " Please Select Event"}</option>
+                          {orgDropdownItems}
+                        </Field>
                       </div>
                       <div className="w-1/6 text-red-600 font-normal italic mx-sm">
-                          <ErrorMessage name="orgName" />
+                          <ErrorMessage name="orgID" />
                         </div>
                     </div>
 
@@ -215,11 +230,12 @@ class Login extends React.Component {
                     </div>
                     
                     <div className="flex justify-center">
+                      {/* TODO #3: Disable this when loggingIn = true */}
                       <button type="submit" value="Login" className="pill_button w-1/4">
                         Log In
                       </button>
                     </div>
-                  </Form>
+                  </Form>)}
                 </Formik>
               </div>
             </div>
