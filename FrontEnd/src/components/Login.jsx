@@ -37,7 +37,8 @@ class Login extends React.Component {
     // TODO #3: 
     // Set state.loggingIn to true
     // Call the register_user API with formValues
-    // Call login() on the returned data from the API call 
+    // Call login() on the returned data from the API call
+    login("test_userid", "test_event_password")
   }
 
   componentDidMount() {
@@ -63,6 +64,7 @@ class Login extends React.Component {
       // Fill this out similar to eventDropdownItems - note that orgData is going
       // to be a list of (orgID, orgName) pairs - we need the option's value to be
       // the ID because we need that when we submit the form
+      <option></option>
     ));
 
     return (
@@ -92,14 +94,14 @@ class Login extends React.Component {
                     orgID: '',
                     eventPassword: '',
                   }}
-                  validationSchema={Yup.object({
-                    firstName: Yup.string().required('Required'),
-                    lastName: Yup.string().required('Required'),
-                    email: Yup.string().email("Invalid email").required("Required"),
-                    eventID: Yup.number().required("Required"),
-                    orgID: Yup.number().required("Required"),
-                    eventPassword: Yup.string().required("Required"),
-                  })}
+                  // validationSchema={Yup.object({
+                  //   firstName: Yup.string().required('Required'),
+                  //   lastName: Yup.string().required('Required'),
+                  //   email: Yup.string().email("Invalid email").required("Required"),
+                  //   eventID: Yup.number().required("Required"),
+                  //   orgID: Yup.number().required("Required"),
+                  //   eventPassword: Yup.string().required("Required"),
+                  // })}
                   onSubmit={(values) => {
                     this.handleSubmit(auth.setLogin, values);
                   }}
