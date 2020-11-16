@@ -25,11 +25,17 @@ class SupplyForm extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      submitting: false, 
+    }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.cancel = this.cancel.bind(this);
   }
 
   handleSubmit(formValues) {
+    // TODO:
+    // Set submitting to true
+    // Call setFormPage only after we've gotten a response from registerSupply (Hint: Use .then)
     registerSupply(formValues.userid, formValues.eventToken, formValues.supplyName, formValues.brand, formValues.refNumber);
     this.props.setFormPage(FORM_PAGES.INVENTORY_FORM);
   }
@@ -38,14 +44,8 @@ class SupplyForm extends React.Component {
     this.props.setFormPage(FORM_PAGES.SUPPLY_LIST);
   }
 
-  /*
-  TODO: Render a Formik form (see Login.jsx for reference) with the following fields:
-        - Supply Name
-        - Brand
-        - Reference Number
-        Also render a cancel button
-  */
   render() {
+    const { submitting } = this.state;
     return(
       <Authentication.Consumer>
           {(auth) => (
@@ -137,6 +137,8 @@ class SupplyForm extends React.Component {
                       <button onClick={this.back} type="cancel" value="Cancel" className="pill_button w-1/6">
                         Cancel
                       </button>
+
+                      {/* TODO: Disable this button when submitting is true */}
                       <button type="submit" value="Submit" className="pill_button w-1/6">
                         Submit
                       </button>
