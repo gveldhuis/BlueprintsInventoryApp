@@ -33,9 +33,7 @@ class CameraFeed extends React.Component {
   handleClick() {
     // Retrieve reference to webcam attached to Webcam component
     const { webcamRef } = this.state;
-    // Get base64-encoded screenshot from webcam and create base64 buffer
-    const image = Buffer.from(webcamRef.getScreenshot(), 'base64');
-    console.log("Image taken");
+    this.props.scanImage(webcamRef.getScreenshot());
   }
 
   render() {
