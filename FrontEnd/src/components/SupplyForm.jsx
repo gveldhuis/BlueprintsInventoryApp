@@ -36,8 +36,11 @@ class SupplyForm extends React.Component {
     // TODO:
     // Set submitting to true
     // Call setFormPage only after we've gotten a response from registerSupply (Hint: Use .then)
-    registerSupply(formValues.userid, formValues.eventToken, formValues.supplyName, formValues.brand, formValues.refNumber);
-    this.props.setFormPage(FORM_PAGES.INVENTORY_FORM);
+    this.setState({submitting: true});
+    registerSupply(formValues.userid, formValues.eventToken, formValues.supplyName, formValues.brand, formValues.refNumber)
+    .then(
+      this.props.setFormPage(FORM_PAGES.INVENTORY_FORM),
+    );
   }
   
   cancel() {
