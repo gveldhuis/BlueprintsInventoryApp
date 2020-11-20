@@ -142,7 +142,7 @@ class SupplyForm extends React.Component {
                       </button>
 
                       {/* TODO: Disable this button when submitting is true */}
-                      <button type="submit" value="Submit" className="pill_button w-1/6">
+                      <button disabled={this.state.submitting} type="submit" value="Submit" className="pill_button w-1/6">
                         Submit
                       </button>
                     </div>
