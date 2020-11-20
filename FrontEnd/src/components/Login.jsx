@@ -7,7 +7,8 @@ import {
 } from 'formik';
 import Authentication from 'utils/Auth';
 import * as Yup from 'yup';
-import { getEvents } from 'utils/api_utils';
+import { getEvents, getOrganizations, registerVolunteer } from 'utils/api_utils';
+
 
 class Login extends React.Component {
   constructor(props) {
@@ -29,6 +30,15 @@ class Login extends React.Component {
     // Set the returned data in state
     // Set eventSelected to true
     // Set waitingForOrgs to false
+    getOrganizations(eventID)
+    .then((data) => {
+      console.log(data);
+      this.setState({
+        orgs: data,
+        eventSelected: true,
+        waitingForOrgs: false
+      })
+    });
   }
 
   // handleSubmit is passed the login callback from inside render because we
@@ -38,7 +48,14 @@ class Login extends React.Component {
     // Set state.loggingIn to true
     // Call the register_user API with formValues
     // Call login() on the returned data from the API call
-    login("test_userid", "test_event_password")
+    // login("test_userid", "test_event_password")
+    this.setState({
+      loggingIn: true
+    })
+    registerVolunteer(formValues)
+    .then((data) => {
+      login(data)
+    })
   }
 
   componentDidMount() {
@@ -64,7 +81,7 @@ class Login extends React.Component {
       // Fill this out similar to eventDropdownItems - note that orgData is going
       // to be a list of (orgID, orgName) pairs - we need the option's value to be
       // the ID because we need that when we submit the form
-      <option></option>
+      <option key={orgData[0]} value={orgData[0]}>{orgData[1]}</option>
     ));
 
     return (
