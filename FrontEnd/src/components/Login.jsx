@@ -25,62 +25,64 @@ class Login extends React.Component {
   }
 
   handleEventSelected(eventID) {
-    // TODO #1:
-    // Given the eventID, call the getOrganizations API 
-    // Set the returned data in state
-    // Set eventSelected to true
-    // Set waitingForOrgs to false
     getOrganizations(eventID)
     .then((data) => {
-      console.log(data);
       this.setState({
         orgs: data,
         eventSelected: true,
         waitingForOrgs: false
-      })
+      });
+    })
+    .catch((error) => {
+      alert("Failed to retrieve organizations for selected event.");
+      console.log(error.message);
     });
   }
 
   // handleSubmit is passed the login callback from inside render because we
   // only have access to the login callback from within Authentication.Consumer 
   handleSubmit(login, formValues) {
-    // TODO #3: 
-    // Set state.loggingIn to true
-    // Call the register_user API with formValues
-    // Call login() on the returned data from the API call
-    // login("test_userid", "test_event_password")
     this.setState({
       loggingIn: true
     })
-    registerVolunteer(formValues)
+    registerVolunteer(
+      formValues.eventID,
+      formValues.eventPassword,
+      formValues.orgID,
+      formValues.firstName,
+      formValues.lastName,
+      formValues.email)
     .then((data) => {
-      login(data)
+      login(data.id, formValues.eventPassword);
+    })
+    .catch((error) => {
+      alert("Login failed. Please try again.");
+      console.log(error.message);
     })
   }
 
   componentDidMount() {
     getEvents()
     .then((data) => {
-      console.log(data);
       this.setState({
         events: data,
         waitingForEvents: false
       })
+    })
+    .catch((error) => {
+      alert("Failed to retrieve events. Please reload page.");
+      console.log(error.message);
     });
-  }
+  } 
 
   render() {
-    const { events, orgs, waitingForEvents, eventSelected, waitingForOrgs } = this.state;
+    const { events, orgs, waitingForEvents, eventSelected, waitingForOrgs, loggingIn } = this.state;
     
     const eventDropdownItems = events.map((eventData) => (
       <option key={eventData[0]} value={eventData[0]}>{eventData[1]}</option>
     ));
     
     const orgDropdownItems = orgs.map((orgData) => (
-      // TODO #2:
-      // Fill this out similar to eventDropdownItems - note that orgData is going
-      // to be a list of (orgID, orgName) pairs - we need the option's value to be
-      // the ID because we need that when we submit the form
       <option key={orgData[0]} value={orgData[0]}>{orgData[1]}</option>
     ));
 
@@ -111,14 +113,14 @@ class Login extends React.Component {
                     orgID: '',
                     eventPassword: '',
                   }}
-                  // validationSchema={Yup.object({
-                  //   firstName: Yup.string().required('Required'),
-                  //   lastName: Yup.string().required('Required'),
-                  //   email: Yup.string().email("Invalid email").required("Required"),
-                  //   eventID: Yup.number().required("Required"),
-                  //   orgID: Yup.number().required("Required"),
-                  //   eventPassword: Yup.string().required("Required"),
-                  // })}
+                  validationSchema={Yup.object({
+                    firstName: Yup.string().required('Required'),
+                    lastName: Yup.string().required('Required'),
+                    email: Yup.string().email("Invalid email").required("Required"),
+                    eventID: Yup.number().required("Required"),
+                    orgID: Yup.number().required("Required"),
+                    eventPassword: Yup.string().required("Required"),
+                  })}
                   onSubmit={(values) => {
                     this.handleSubmit(auth.setLogin, values);
                   }}
@@ -250,7 +252,7 @@ class Login extends React.Component {
                     
                     <div className="flex justify-center">
                       {/* TODO #3: Disable this when loggingIn = true */}
-                      <button type="submit" value="Login" className="pill_button w-1/4">
+                      <button type="submit" value="Login" className="pill_button w-1/4" disabled={loggingIn}>
                         Log In
                       </button>
                     </div>
