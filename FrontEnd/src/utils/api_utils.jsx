@@ -1,30 +1,36 @@
 export async function getEvents() {
   const response = await fetch("http://52.188.114.62:80/api/events/", { method: "GET" });
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
   const json = await response.json();
   return json.data;
 }
 
 export async function getOrganizations(eventID) {
-  const data = { event: eventID, };
+  const data = { event: parseInt(eventID), };
   const response = await fetch(
     "http://52.188.114.62:80/api/organizations/", 
     { 
-      method: "GET",
+      method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     },
   );
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
   const json = await response.json();
   return json.data;
 }
 
 export async function registerVolunteer(eventID, password, organization, first, last, email) {
   const data = { 
-    event: eventID, 
+    event: parseInt(eventID), 
     password: password,
-    organization: organization,
+    organization: parseInt(organization),
     first_name: first,
     last_name: last,
     email: email,
@@ -39,6 +45,9 @@ export async function registerVolunteer(eventID, password, organization, first, 
       body: JSON.stringify(data),
     },
   );
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
   const json = await response.json();
   return json.id;
 }
@@ -65,6 +74,9 @@ export async function registerInventory(volunteerID, password, supplyID, amount,
       body: JSON.stringify(data),
     },
   );
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
   const json = await response.json();
   return json.category;
 }
@@ -87,6 +99,9 @@ export async function registerSupply(volunteerID, password, name, brand, refNumb
       body: JSON.stringify(data),
     },
   );
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
   const json = await response.json();
   return json.id;
 }
@@ -100,13 +115,16 @@ export async function getSupplies(volunteerID, password, imageText) {
   const response = await fetch(
     "http://52.188.114.62:80/api/search_supply/", 
     {
-      method: "GET",
+      method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     },
   );
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
   const json = await response.json();
   return json.search_results;
 }
@@ -119,13 +137,16 @@ export async function getUserStats(volunteerID, password) {
   const response = await fetch(
     "http://52.188.114.62:80/api/stats/", 
     {
-      method: "GET",
+      method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     },
   );
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
   const json = await response.json();
   return {
     today: json.today,
