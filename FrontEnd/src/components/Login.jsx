@@ -43,22 +43,27 @@ class Login extends React.Component {
   // only have access to the login callback from within Authentication.Consumer 
   handleSubmit(login, formValues) {
     this.setState({
-      loggingIn: true
-    })
-    registerVolunteer(
-      formValues.eventID,
-      formValues.eventPassword,
-      formValues.orgID,
-      formValues.firstName,
-      formValues.lastName,
-      formValues.email)
-    .then((data) => {
-      login(data.id, formValues.eventPassword);
-    })
-    .catch((error) => {
-      alert("Login failed. Please try again.");
-      console.log(error.message);
-    })
+      loggingIn: true,
+    });
+    // registerVolunteer(
+    //   formValues.eventID,
+    //   formValues.eventPassword,
+    //   formValues.orgID,
+    //   formValues.firstName,
+    //   formValues.lastName,
+    //   formValues.email)
+    // .then((data) => {
+    //   login(data.id, formValues.eventPassword);
+    // })
+    // .catch((error) => {
+    //   alert("Login failed. Please try again.");
+    //   console.log(error.message);
+    //   this.setState({
+    //     loggingIn: false,
+    //   });
+    // });
+
+    login(10, "atlas");
   }
 
   componentDidMount() {
