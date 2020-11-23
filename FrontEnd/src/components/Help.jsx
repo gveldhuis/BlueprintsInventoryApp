@@ -10,9 +10,11 @@ import {
  
 export default function Help() {
     return (
-        <div>
-          <h1 className="page_header text-6xl mb-md">Help Page</h1>
-          <Accordion allowZeroExpanded='true'>
+        <div className="h-screen">
+          <div className="flex justify-center items-center h-1/4">
+            <h1 className="page_header text-6xl mb-md">Help Page</h1>
+          </div>
+          <Accordion className="h-3/4" allowZeroExpanded='true'>
                 <AccordionItem>
                     <AccordionItemHeading className="bg-dark_blue text-center text-white text-3xl">
                         <AccordionItemButton className="py-md">
