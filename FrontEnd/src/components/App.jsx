@@ -57,12 +57,12 @@ class App extends React.Component {
       isLoggedIn: false,
       firstLogin: true,
       userid: '',
-      eventToken: '',
+      eventPassword: '',
     });
   }
 
   render() {
-    const { isLoggedIn, firstLogin, userid, eventToken } = this.state;
+    const { isLoggedIn, firstLogin, userid, eventPassword } = this.state;
 
     let login;
     if (isLoggedIn) {
@@ -89,7 +89,7 @@ class App extends React.Component {
         <Authentication.Provider
           value={{
             userid,
-            eventToken,
+            eventPassword,
             setLogin: this.setLogin,
             clearLogin: this.clearLogin,
           }}

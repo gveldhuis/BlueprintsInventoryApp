@@ -131,7 +131,7 @@ export async function getSupplies(volunteerID, password, imageText) {
 
 export async function getUserStats(volunteerID, password) {
   const data = { 
-    volunteer: volunteerID, 
+    volunteer: parseInt(volunteerID), 
     password: password,
   };
   const response = await fetch(
