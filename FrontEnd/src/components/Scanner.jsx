@@ -1,55 +1,61 @@
 import React from 'react';
 import CameraFeed from './Camera';
 import ScanForm from './ScanForm';
-import { createWorker } from 'tesseract.js';
+import Authentication from 'utils/Auth';
 
 class Scanner extends React.Component {
+  /*
+  State:
+  - showCamera: flag used to render Camera or not
+  - manualEntry: flag used to init ScanForm at SupplySearch or not
+  - imageText: text retrieved from Tesseract
+  - worker: A Tesseract worker
+  */
+
   constructor(props){
     super(props);
     this.state = {
       showCamera: true,
+      manualEntry: false,
       imageText: '',
-      worker: createWorker(),
     };
-    this.toggleCamera = this.toggleCamera.bind(this);
-    this.scanImage = this.scanImage.bind(this);
+    this.showCamera = this.showCamera.bind(this);
+    this.showForm = this.showForm.bind(this);
   }
 
-  toggleCamera() {
-    this.setState((prevState) => ({
-      showCamera: !prevState.showCamera
-    }));
+  showCamera() {
+    this.setState({
+      showCamera: true,
+    });
   }
 
-  async scanImage(image) {
-    const { worker } = this.state;
-
-    await worker.load();
-    await worker.loadLanguage('eng');
-    await worker.initialize('eng');
-
-    // TODO: Pre-process image so Tesseract recognition is better on web-cam images
-    try {
-      const { data: { text } } = await worker.recognize(image);
-      console.log(text);
-      this.setState({
-        imageText: text,
-      });
-    } catch(err) {
-      console.log(err);
-    }
+  showForm(manual, imageText){
+    this.setState({
+      showCamera: false,
+      manualEntry: manual,
+      imageText: imageText,
+    });
   }
 
   render() {
-    const { showCamera, imageText } = this.state;
+    const { showCamera, manualEntry, imageText } = this.state;
 
     if (showCamera) {
       return (
-        <CameraFeed toggleCamera={this.toggleCamera} scanImage={this.scanImage} />
+        <CameraFeed showForm={this.showForm} />
       );
     } else {
       return (
-        <ScanForm toggleCamera={this.toggleCamera} imageText={imageText} />
+        <Authentication.Consumer>
+          {(auth) =>
+            <ScanForm
+              showCamera={this.showCamera}
+              manualEntry={manualEntry}
+              imageText={imageText}
+              auth={auth}
+            />            
+          }
+        </Authentication.Consumer>
       );
     }
   }
