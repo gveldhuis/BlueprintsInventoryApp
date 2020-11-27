@@ -11,18 +11,6 @@ import FORM_PAGES from 'utils/ScanFormPages';
 import { registerSupply } from 'utils/api_utils';
 
 class SupplyForm extends React.Component {
-  /*
-  Props:
-  - setFormPage() callback function
-  - setSupplyFormData() callback function 
-
-  State: None
-
-  Functons:
-  - cancel(): Sets page to SupplyList
-  - handleSubmit(): calls setSupplyItem() and sets page to InventoryForm
-  */
-
   constructor(props) {
     super(props);
     this.state = {
@@ -33,9 +21,6 @@ class SupplyForm extends React.Component {
   }
 
   handleSubmit(formValues) {
-    // TODO:
-    // Set submitting to true
-    // Call setFormPage only after we've gotten a response from registerSupply (Hint: Use .then)
     this.setState({submitting: true});
     registerSupply(formValues.userid, formValues.eventToken, formValues.supplyName, formValues.brand, formValues.refNumber)
     .then(
@@ -52,20 +37,14 @@ class SupplyForm extends React.Component {
     return(
       <Authentication.Consumer>
           {(auth) => (
-            <div className="h-screen">
-              <div className="flex justify-center items-end h-2/5">
-                <img
-                  src={require('assets/images/Blueprints_Logo2.png')} 
-                  alt = "Logo"
-                  className="w-10/12 max-w-xs object-contain"
-                />
-              </div>
+            <div className="flex justify-center items-start h-screen bg-gray-200">
+              <div className="w-10/12 bg-white my-xl">
               
-              <div className="flex justify-center py-sm">
-                <h1 className="section_header font-semibold text-dark_blue">Supply Form</h1>
-              </div>
-
-              <div className="flex justify-center items-start h-2/5">
+                <div className="flex justify-center items-center my-md">
+                  <h1 className="page_header text-4xl font-semibold px-sm">
+                    Register New Supply Item
+                  </h1>
+                </div>
                 <Formik
                   initialValues={{
                     supplyName: '',
@@ -73,81 +52,83 @@ class SupplyForm extends React.Component {
                     refNumber: '',
                   }}
                   validationSchema={Yup.object({
-                    supplyName: Yup.string().required('Required'),
-                    brand: Yup.string().required('Required'),
-                    refNumber: Yup.string().required("Required"),
+                    supplyName: Yup.string().required('*'),
+                    brand: Yup.string().required('*'),
+                    refNumber: Yup.string().required('*'),
                   })}
                   onSubmit={(values) => {
                     this.handleSubmit(values);
                   }}
                 >
-                  <Form className="w-11/12">
+                  <Form className="my-md">
                     <div className="flex items-center my-sm">
-                      <div className="w-1/3 whitespace-no-wrap">
+                      <div className="w-1/4 whitespace-no-wrap">
                         <label htmlFor="supplyName" className="block text-right mx-sm font-semibold">
-                          Supply Name
+                          Name
                         </label>
                       </div>
-                      <div className="w-1/2">
+                      <div className="w-3/5 px-sm">
                         <Field 
                           name="supplyName"
                           type="text"
                           className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
                         />
                       </div>
-                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
+                      <div className="text-red-600 font-normal italic">
                         <ErrorMessage name="supplyName"/>
                       </div>
                     </div>
 
-                    <div className="flex items-center  my-sm">
-                      <div className="w-1/3 whitespace-no-wrap">
+                    <div className="flex items-center my-sm">
+                      <div className="w-1/4 whitespace-no-wrap">
                         <label htmlFor="brand" className="block text-right mx-sm font-semibold">
                           Brand
                         </label>
                       </div>
-                      <div className="w-1/2">
+                      <div className="w-3/5 px-sm">
                         <Field
                           name="brand"
                           type="text"
                           className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
                         />
                       </div>
-                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
-                          <ErrorMessage name="brand" />
-                        </div>
+                      <div className="text-red-600 font-normal italic">
+                        <ErrorMessage name="brand" />
+                      </div>
                     </div>
 
-                    <div className="flex items-center  my-sm">
-                      <div className="w-1/3 whitespace-no-wrap">
+                    <div className="flex items-center my-sm">
+                      <div className="w-1/4 whitespace-no-wrap">
                         <label htmlFor="refNumber" className="block text-right mx-sm font-semibold">
-                          Reference Number
+                          Ref #
                         </label>
                       </div>
-                      <div className="w-1/2">
+                      <div className="w-3/5 px-sm">
                         <Field
                           name="refNumber"
                           type="text"
                           className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
                         />
                       </div>
-                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
-                          <ErrorMessage name="refNumber" />
-                        </div>
+                      <div className="text-red-600 font-normal italic">
+                        <ErrorMessage name="refNumber" />
+                      </div>
                     </div>
                     
-                    <div className="flex justify-center">
-                      <button onClick={this.back} type="cancel" value="Cancel" className="pill_button w-1/6">
-                        Cancel
-                      </button>
+                    <div className="flex justify-center my-md">
+                      <div className="flex justify-evenly w-full">
+                        <button onClick={this.cancel} type="button" className="pill_button">
+                          Cancel
+                        </button>
 
-                      {/* TODO: Disable this button when submitting is true */}
-                      <button disabled={this.state.submitting} type="submit" value="Submit" className="pill_button w-1/6">
-                        Submit
-                      </button>
+                        <button disabled={submitting} type="submit" className="pill_button">
+                          Submit
+                        </button>
+                      </div>
                     </div>
                   </Form>
                 </Formik>
+                
               </div>
             </div>
           )}
