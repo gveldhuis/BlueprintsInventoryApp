@@ -12,6 +12,7 @@ class ScanForm extends React.Component {
     this.state = {
       currentPage: (true) ? FORM_PAGES.SUPPLY_SEARCH : FORM_PAGES.SUPPLY_LIST,
       supplySearchText: imageText,
+      manualEntry: manualEntry,
       supplyItem: {
         id: 0,
         ref_number: "",
@@ -22,6 +23,7 @@ class ScanForm extends React.Component {
     };
     this.setFormPage = this.setFormPage.bind(this);
     this.setSupplySearchText = this.setSupplySearchText.bind(this);
+    this.setSupplyItem = this.setSupplyItem.bind(this);
   }
 
   setFormPage(page) {
@@ -36,26 +38,39 @@ class ScanForm extends React.Component {
     });
   }
 
+  setSupplyItem(data) {
+    this.setState({
+      supplyItem: data,
+    });
+  }
+
   render() {
     const { currentPage, supplySearchText } = this.state;
-    console.log(this.props.showCamera);
 
     let page;
     switch(currentPage) {
       case FORM_PAGES.SUPPLY_SEARCH:
         page = <SupplySearch
+          showCamera={this.props.showCamera}
           setFormPage={this.setFormPage}
           setSupplySearchText={this.setSupplySearchText}
-          showCamera={this.props.showCamera}
         />
         break;
 
       case FORM_PAGES.SUPPLY_LIST:
-        page = <SupplyList setFormPage={this.setFormPage} supplySearchText={supplySearchText} />;
+        page = <SupplyList
+          showCamera={this.props.showCamera}
+          setFormPage={this.setFormPage}
+          supplySearchText={supplySearchText}
+          setSupplyItem={this.setSupplyItem}
+          auth={this.props.auth}
+        />;
         break;
       
       case FORM_PAGES.SUPPLY_FORM:
-        page = <SupplyForm setFormPage={this.setFormPage} />;
+        page = <SupplyForm
+          setFormPage={this.setFormPage}
+        />;
         break;
       
       case FORM_PAGES.INVENTORY_FORM:

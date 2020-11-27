@@ -27,13 +27,15 @@ class SupplySearch extends React.Component {
 
   render() {
     return (
-      <div className="flex justify-center items-center h-screen bg-gray-300">
-        <div className="h-3/4 w-3/4 bg-white mb-xl">
-          <div className="flex h-1/4 justify-center items-center">
-            <h1 className="page_header text-4xl font-semibold">
-              Search for a Supply
+      <div className="flex justify-center items-start h-screen bg-gray-200">
+        <div className="w-10/12 bg-white my-xl">
+          
+          <div className="flex justify-center items-center my-md">
+            <h1 className="page_header text-4xl font-semibold px-sm">
+              Search Supplies
             </h1>
           </div>
+          
           <Formik
             initialValues={{
               supplyName: '',
@@ -44,12 +46,11 @@ class SupplySearch extends React.Component {
             onSubmit={(values) => {
               this.handleSubmit(values);
             }}
-            className="h-3/4"
           >
-            <Form>
+            <Form className="my-md">
               <div className="w-full">
                 <div className="flex justify-center items-center my-sm">
-                  <div className="w-2/3">
+                  <div className="w-5/6">
                     <Field 
                       name="supplyName"
                       as="textarea"
@@ -60,13 +61,13 @@ class SupplySearch extends React.Component {
                   </div>
                 </div>
 
-                <div className="flex justify-center pt-md">
-                  <div className="flex justify-evenly w-2/3">
-                    <button onClick={this.back} type="button" className="pill_button w-1/3">
+                <div className="flex justify-center my-md">
+                  <div className="flex justify-evenly w-full">
+                    <button onClick={this.back} type="button" className="pill_button">
                       Back
                     </button>
 
-                    <button type="submit" className="pill_button w-1/3">
+                    <button type="submit" className="pill_button">
                       Search
                     </button>
                   </div>
