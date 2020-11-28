@@ -16,7 +16,6 @@ class SupplySearch extends React.Component {
   }
 
   back() {
-    console.log(this.props.showCamera);
     this.props.showCamera();
   }
 
@@ -28,7 +27,7 @@ class SupplySearch extends React.Component {
   render() {
     return (
       <div className="flex justify-center items-start h-screen bg-gray-200">
-        <div className="w-10/12 bg-white my-xl">
+        <div className="w-10/12 bg-white shadow rounded my-xl">
           
           <div className="flex justify-center items-center my-md">
             <h1 className="page_header text-4xl font-semibold px-sm">

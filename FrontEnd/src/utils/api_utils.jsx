@@ -54,14 +54,14 @@ export async function registerVolunteer(eventID, password, organization, first, 
 
 export async function registerInventory(volunteerID, password, supplyID, amount, expirationYear, expirationMonth, expirationDay) {
   const data = { 
-    volunteer: volunteerID, 
+    volunteer: parseInt(volunteerID), 
     password: password,
-    supply: supplyID,
-    amount: amount,
-    expiraton: {
-      year: expirationYear,
-      month: expirationMonth,
-      day: expirationDay,
+    supply: parseInt(supplyID),
+    amount: parseInt(amount),
+    expiraton_date: {
+      year: parseInt(expirationYear),
+      month: parseInt(expirationMonth),
+      day: parseInt(expirationDay),
     },
   };
   const response = await fetch(

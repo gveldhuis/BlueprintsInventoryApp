@@ -1,6 +1,13 @@
 import React from 'react';
 import FORM_PAGES from 'utils/ScanFormPages';
 import { getSupplies } from 'utils/api_utils';
+import {
+  Formik,
+  Form, 
+  Field,
+  ErrorMessage,
+} from 'formik';
+import * as Yup from 'yup';
 
 class SupplyList extends React.Component {
   constructor(props) {
@@ -34,6 +41,13 @@ class SupplyList extends React.Component {
     this.props.setSupplyItem(supplyData[index]);
     this.props.setFormPage(FORM_PAGES.INVENTORY_FORM);
   }
+
+  handleSubmit(values) {
+    const { supplyData } = this.state;
+
+    this.props.setSupplyItem(supplyData[values.selectedItem]);
+    this.props.setFormPage(FORM_PAGES.INVENTORY_FORM);
+  }
   
   rescanSupply() {
     this.props.showCamera();
@@ -51,13 +65,22 @@ class SupplyList extends React.Component {
     const { supplyData } = this.state;
 
     const listItems = supplyData.map((supplyData, index) => (
-      <li key={supplyData[1].id} className="flex justify-center bg-white odd:bg-gray-100 border-b-2 border-gray-600">
-        <div className="flex items-center justify-center w-lg border-r-2 border-gray-600">
-          <p>{index + 1}</p>
+      <label
+        key={supplyData[1].id}
+        className="flex justify-center bg-white odd:bg-gray-100 border-b border-gray-300"
+      >
+        <div className="flex items-center justify-center w-lg border-r border-gray-300">
+          <div>
+            <p className="text-center my-sm">{index + 1}</p>
+            <input
+              type="radio"
+              name="selectedItem"
+              value={index}/>
+          </div>
         </div>
-        <button
-          onClick={() => this.handleListItemClick(index)}
-          className="w-full overflow-scroll"
+        <div
+          // onClick={() => this.handleListItemClick(index)}
+          className="w-full overflow-x-scroll"
         >
           <div className="w-full whitespace-no-wrap">
             <p className="inline-block w-1/6 text-right">Ref #:</p>
@@ -71,13 +94,13 @@ class SupplyList extends React.Component {
             <p className="inline-block w-1/6 text-right">Brand:</p>
             <p className="inline-block w-5/6  text-left mx-md">{supplyData[1].brand}</p>
           </div>
-        </button>
-      </li>
+        </div>
+      </label>
     ));
 
     return(
       <div className="flex justify-center items-start h-screen bg-gray-200">
-        <div className="w-10/12 bg-white my-xl h-3/4">
+        <div className="w-10/12 bg-white shadow rounded my-xl h-3/4">
 
           <div className="flex justify-center items-center my-md">
             <h1 className="page_header text-4xl font-semibold px-sm">
@@ -85,25 +108,49 @@ class SupplyList extends React.Component {
             </h1>
           </div>
 
-          <ol className="border-2 border-black h-3/5 overflow-scroll mx-sm">
-            {listItems}
-          </ol>
+          <Formik
+            initialValues={{
+              selectedItem: '',
+            }}
+            validationSchema={Yup.object({
+              selectedItem: Yup.number().required('Please select an item type from the list.'),
+            })}
+            onSubmit={(values) => {
+              this.handleSubmit(values);
+            }}
+          >
+            <Form className="h-4/5">
+              <Field component="div" className="h-7/10 overflow-y-scroll mx-sm">
+                {listItems}
+              </Field>
 
-          <div className="flex justify-center pt-md">
-            <div className="flex flex-wrap justify-evenly w-full">
-              <button onClick={this.searchForSupply} type="button" className="pill_button my-sm">
-                Manual Search
-              </button>
+              <div className="text-red-600 font-normal italic w-full h-md flex justify-center py-sm">
+                <ErrorMessage name="selectedItem"/>
+              </div>
 
-              <button onClick={this.rescanSupply} type="button" className="pill_button my-sm">
-                Re-Scan Item
-              </button>
+              <div className="flex flex-wrap justify-center pt-md">
+                <div className="flex flex-wrap justify-evenly w-full">
+                  <button onClick={this.registerNewSupply} type="button" className="pill_button my-sm">
+                    New Supply
+                  </button>
 
-              <button onClick={this.registerNewSupply} type="button" className="pill_button my-sm">
-                New Supply
-              </button>
-            </div>
-          </div>
+                  <button type="submit" className="pill_button bg-light_blue my-sm">
+                    Next <p className="fas fa-arrow-right"/>
+                  </button>
+                </div>
+
+                <div className="flex flex-wrap justify-evenly w-full">
+                  <button onClick={this.searchForSupply} type="button" className="pill_button my-sm">
+                    Manual Search
+                  </button>
+
+                  <button onClick={this.rescanSupply} type="button" className="pill_button my-sm">
+                    Re-Scan Item
+                  </button>
+                </div>
+              </div>
+            </Form>
+          </Formik>
         </div>
       </div>
     );

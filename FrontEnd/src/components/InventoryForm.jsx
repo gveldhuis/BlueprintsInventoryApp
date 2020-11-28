@@ -5,170 +5,135 @@ import {
   Field,
   ErrorMessage,
 } from 'formik';
-import Authentication from 'utils/Auth';
 import * as Yup from 'yup';
 import FORM_PAGES from 'utils/ScanFormPages';
+import { registerInventory } from "utils/api_utils";
 
 class InventoryForm extends React.Component {
-  /*
-  Props:
-  - setFormPage() callback function
-  - supplyItem dict containing
-    {
-      id:
-      ref_number:
-      brand:
-      name:
-      category:
-    }
-
-  State: None
-
-  Functions:
-  - back(): sets form page to SupplyList
-  - handleSubmit(): submits form to REST API
-  */
   constructor(props) {
     super(props);
-    this.back = this.back.bind(this);
+    this.state = {
+      submitting: false,
+    };
+    this.cancel = this.cancel.bind(this);
   }
-  
-  back() {
+
+  cancel() {
     this.props.setFormPage(FORM_PAGES.SUPPLY_LIST);
   }
 
   handleSubmit(formValues) {
-    // TODO: implement this eventually
+    const { auth, selectedSupply } = this.props;
+    const date = formValues.expDate.split("-");
+
+    registerInventory(auth.userid, auth.eventPassword, selectedSupply[1].id, formValues.amount, date[0], date[1], date[2])
+    .then(() => {
+      this.props.showCamera();
+    })
+    .catch((error) => {
+      alert("Error logging inventory, please try again.");
+      console.log(error);
+    })
   }
 
-  /*
-  TODO: Render a Formik form (see Login.jsx for reference) with the following fields:
-        - Amount
-        - Expiration Day
-        - Expiration Month
-        - Expiration Year
-        Also render a header showing the selected SupplyItem and a back button beneath the form 
-  */
   render() {
+    const { submitting } = this.state;
+    const { selectedSupply } = this.props;
+    console.log(selectedSupply);
+
     return(
-      <Authentication.Consumer>
-          {(auth) => (
-            <div className="h-screen">
-              <div className="flex justify-center items-end h-2/5">
-                <img
-                  src={require('assets/images/Blueprints_Logo2.png')} 
-                  alt = "Logo"
-                  className="w-10/12 max-w-xs object-contain"
-                />
-              </div>
-              
-              <div className="flex justify-center py-sm">
-                <h1 className="section_header font-semibold text-dark_blue">Inventory Form</h1>
+      <div className="flex justify-center items-start h-screen bg-gray-200">
+        <div className="w-10/12 bg-white shadow rounded my-xl">
+          
+          <div className="flex justify-center items-center my-md">
+            <h1 className="page_header text-4xl font-semibold px-sm">
+              Item Info
+            </h1>
+          </div>
+
+          <Formik
+            initialValues={{
+              supplyName: selectedSupply[1].name,
+              amount: 0,
+              expDate: '',
+            }}
+            validationSchema={Yup.object({
+              supplyName: Yup.string().required('*'),
+              amount: Yup.number().positive('*').required('*'),
+              expDate: Yup.date().required('*'),
+            })}
+            onSubmit={(values) => {
+              this.handleSubmit(values);
+            }}
+          >
+            <Form className="my-md">
+              <div className="flex items-center my-sm">
+                <div className="w-1/4 whitespace-no-wrap">
+                  <label htmlFor="supplyName" className="block text-right mx-sm font-semibold">
+                    Name
+                  </label>
+                </div>
+                <div className="w-7/10 px-sm">
+                  <Field
+                    name="supplyName"
+                    type="text"
+                    disabled={true}
+                    className="bg-gray-300 border-2 border-gray-300 rounded w-full font-semibold"
+                  />
+                </div>
               </div>
 
-              <div className="flex justify-center items-start h-2/5">
-                <Formik
-                  initialValues={{
-                    amount: '',
-                    expDay: '',
-                    expMonth: '',
-                    expYear: '',
-                  }}
-                  validationSchema={Yup.object({
-                    amount: Yup.string().required('Required'),
-                    expDay: Yup.string().required('Required'),
-                    expMonth: Yup.string().required("Required"),
-                    expYear: Yup.string().required("Required"),
-                  })}
-                  onSubmit={(values) => {
-                    this.handleSubmit(values);
-                  }}
-                >
-                  <Form className="w-11/12">
-                    <div className="flex items-center my-sm">
-                      <div className="w-1/3 whitespace-no-wrap">
-                        <label htmlFor="amount" className="block text-right mx-sm font-semibold">
-                          Amount
-                        </label>
-                      </div>
-                      <div className="w-1/2">
-                        <Field 
-                          name="amount"
-                          type="text"
-                          className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
-                        />
-                      </div>
-                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
-                        <ErrorMessage name="amount"/>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center  my-sm">
-                      <div className="w-1/3 whitespace-no-wrap">
-                        <label htmlFor="expDay" className="block text-right mx-sm font-semibold">
-                          Expiration Day
-                        </label>
-                      </div>
-                      <div className="w-1/2">
-                        <Field
-                          name="expDay"
-                          type="text"
-                          className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
-                        />
-                      </div>
-                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
-                          <ErrorMessage name="expDay" />
-                        </div>
-                    </div>
-
-                    <div className="flex items-center  my-sm">
-                      <div className="w-1/3 whitespace-no-wrap">
-                        <label htmlFor="expMonth" className="block text-right mx-sm font-semibold">
-                          Expiration Month
-                        </label>
-                      </div>
-                      <div className="w-1/2">
-                        <Field
-                          name="expMonth"
-                          type="text"
-                          className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
-                        />
-                      </div>
-                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
-                          <ErrorMessage name="expMonth" />
-                      </div>
-                    </div>
-                    <div className="flex items-center  my-sm">
-                      <div className="w-1/3 whitespace-no-wrap">
-                        <label htmlFor="expYear" className="block text-right mx-sm font-semibold">
-                          Expiration Year
-                        </label>
-                      </div>
-                      <div className="w-1/2">
-                        <Field
-                          name="expYear"
-                          type="text"
-                          className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
-                        />
-                      </div>
-                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
-                          <ErrorMessage name="expYear" />
-                        </div>
-                    </div>
-                    <div className="flex justify-center">
-                    <button onSubmit={this.back} type="cancel" value="Cancel" className="pill_button w-1/6">
-                        Cancel
-                      </button>
-                      <button type="submit" value="Submit" className="pill_button w-1/6">
-                        Submit
-                      </button>
-                    </div>
-                  </Form>
-                </Formik>
+              <div className="flex items-center my-sm">
+                <div className="w-1/4 whitespace-no-wrap">
+                  <label htmlFor="amount" className="block text-right mx-sm font-semibold">
+                    Amount
+                  </label>
+                </div>
+                <div className="w-7/10 px-sm">
+                  <Field
+                    name="amount"
+                    type="number"
+                    className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                  />
+                </div>
+                <div className="text-red-600 font-normal italic">
+                  <ErrorMessage name="amount"/>
+                </div>
               </div>
-            </div>
-          )}
-      </Authentication.Consumer>
+
+              <div className="flex items-center my-sm">
+                <div className="w-1/4 whitespace-no-wrap">
+                  <label htmlFor="expDate" className="block text-right mx-sm font-semibold">
+                    Exp. Date
+                  </label>
+                </div>
+                <div className="w-7/10 px-sm">
+                  <Field
+                    name="expDate"
+                    type="date"
+                    className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                  />
+                </div>
+                <div className="text-red-600 font-normal italic">
+                  <ErrorMessage name="expDate"/>
+                </div>
+              </div>
+
+              <div className="flex justify-center my-md">
+                <div className="flex justify-evenly w-full">
+                  <button onClick={this.cancel} type="button" className="pill_button">
+                    Cancel
+                  </button>
+
+                  <button disabled={submitting} type="submit" className="pill_button">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </Form>
+          </Formik>
+        </div>
+      </div>
     );
   }
 }

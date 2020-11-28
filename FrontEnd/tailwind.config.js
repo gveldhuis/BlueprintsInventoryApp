@@ -23,6 +23,9 @@ module.exports = {
         // media breakpoint for when width is greater than height
         'landscape': {'raw': '(orientation: landscape)'},
       },
+      width: {
+        '7/10' : '70%',
+      },
       height: {
         '1/4' : '25%',
         '1/2' : '50%',
@@ -61,7 +64,7 @@ module.exports = {
   },
   variants: {
     textColor: ['responsive', 'active'],
-    backgroundColor: ['odd'],
+    backgroundColor: ['odd', 'even', 'checked'],
     borderWidth: ['last'],
   },
 }

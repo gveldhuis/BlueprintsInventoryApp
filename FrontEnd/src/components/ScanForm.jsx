@@ -10,7 +10,7 @@ class ScanForm extends React.Component {
     super(props);
     const { manualEntry, imageText } = this.props;
     this.state = {
-      currentPage: (true) ? FORM_PAGES.SUPPLY_SEARCH : FORM_PAGES.SUPPLY_LIST,
+      currentPage: (manualEntry) ? FORM_PAGES.SUPPLY_SEARCH : FORM_PAGES.SUPPLY_LIST,
       supplySearchText: imageText,
       manualEntry: manualEntry,
       supplyItem: {
@@ -45,7 +45,7 @@ class ScanForm extends React.Component {
   }
 
   render() {
-    const { currentPage, supplySearchText } = this.state;
+    const { currentPage, supplySearchText, supplyItem} = this.state;
 
     let page;
     switch(currentPage) {
@@ -70,11 +70,19 @@ class ScanForm extends React.Component {
       case FORM_PAGES.SUPPLY_FORM:
         page = <SupplyForm
           setFormPage={this.setFormPage}
+          setSupplyItem={this.setSupplyItem}
+          setSupplySearchText={this.setSupplySearchText}
+          auth={this.props.auth}
         />;
         break;
       
       case FORM_PAGES.INVENTORY_FORM:
-        page = <InventoryForm setFormPage={this.setFormPage} />;
+        page = <InventoryForm
+          showCamera={this.props.showCamera}
+          setFormPage={this.setFormPage}
+          selectedSupply={supplyItem}
+          auth={this.props.auth}
+        />;
         break;
 
       default:
