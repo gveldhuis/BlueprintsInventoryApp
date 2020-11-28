@@ -14,6 +14,7 @@ class InventoryForm extends React.Component {
     super(props);
     this.state = {
       submitting: false,
+      successfulSubmit: false,
     };
     this.cancel = this.cancel.bind(this);
   }
@@ -28,7 +29,10 @@ class InventoryForm extends React.Component {
 
     registerInventory(auth.userid, auth.eventPassword, selectedSupply[1].id, formValues.amount, date[0], date[1], date[2])
     .then(() => {
-      this.props.showCamera();
+      this.setState({
+        successfulSubmit: true,
+      });
+      setTimeout(() => this.props.showCamera(), 1000);
     })
     .catch((error) => {
       alert("Error logging inventory, please try again.");
@@ -37,13 +41,23 @@ class InventoryForm extends React.Component {
   }
 
   render() {
-    const { submitting } = this.state;
+    const { submitting, successfulSubmit } = this.state;
     const { selectedSupply } = this.props;
     console.log(selectedSupply);
 
     return(
       <div className="flex justify-center items-start h-screen bg-gray-200">
-        <div className="w-10/12 bg-white shadow rounded my-xl">
+        {(successfulSubmit) ? 
+          <div className="fixed z-50 flex justify-center items-center h-full w-full bg-black bg-opacity-50">
+            <div className="bg-white p-md rounded-full">
+              <p className="text-3xl"><i  className="text-green-500 fas fa-check"/> Success!</p>
+            </div>
+          </div>
+          :
+          null
+        }
+
+        <div className="w-10/12 bg-white shadow-md rounded my-xl">
           
           <div className="flex justify-center items-center my-md">
             <h1 className="page_header text-4xl font-semibold px-sm">

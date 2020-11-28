@@ -53,9 +53,9 @@ class CameraFeed extends React.Component {
       this.props.showForm(false, text);
     })
     .catch((error) => {
-      console.log(error);
       if (error.isCanceled !== true) {
         alert("Error scanning image, please try again.");
+        console.log(error);
         this.setState({
           runningOCR: false,
           imageTask: null,
@@ -118,19 +118,19 @@ class CameraFeed extends React.Component {
       <div>
         {(runningOCR) ? 
           <div className="fixed z-50 flex justify-center items-center h-full w-full bg-black bg-opacity-50">
-            <div className="bg-white paragraph p-md">
+            <div className="bg-white paragraph p-md rounded-xl">
               <h2 className="text-3xl">
                 Scanning, Please Wait...
               </h2>
-              <div className="flex justify-evenly">
+              <div className="flex justify-evenly mt-md">
                 <button
-                  className="m-sm pill_button"
+                  className="m-sm pill_button w-1/3"
                   onClick={this.cancelImageTask}
                 >
                   Cancel
                 </button>
                 <button
-                  className="m-sm pill_button"
+                  className="m-sm pill_button w-1/3"
                   onClick={this.handleEditClick}
                 >
                   Skip

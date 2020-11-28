@@ -100,7 +100,7 @@ class SupplyList extends React.Component {
 
     return(
       <div className="flex justify-center items-start h-screen bg-gray-200">
-        <div className="w-10/12 bg-white shadow rounded my-xl h-3/4">
+        <div className="w-10/12 bg-white shadow-md rounded my-xl h-3/4">
 
           <div className="flex justify-center items-center my-md">
             <h1 className="page_header text-4xl font-semibold px-sm">

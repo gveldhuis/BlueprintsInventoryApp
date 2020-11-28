@@ -14,7 +14,8 @@ class SupplyForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      submitting: false, 
+      submitting: false,
+      successfulSubmit: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.cancel = this.cancel.bind(this);
@@ -41,7 +42,11 @@ class SupplyForm extends React.Component {
       );
       // Set so registered item appears at top of list when navigating back to SupplyList
       this.props.setSupplySearchText(formValues.supplyName);
-      this.props.setFormPage(FORM_PAGES.INVENTORY_FORM);
+
+      this.setState({
+        successfulSubmit: true
+      });
+      setTimeout(() => this.props.setFormPage(FORM_PAGES.INVENTORY_FORM), 1000);
     })
     .catch((error) => {
       alert("Error registering new supply, please try again.");
@@ -54,10 +59,20 @@ class SupplyForm extends React.Component {
   }
 
   render() {
-    const { submitting } = this.state;
+    const { submitting, successfulSubmit } = this.state;
     return(
       <div className="flex justify-center items-start h-screen bg-gray-200">
-        <div className="w-10/12 bg-white shadow rounded my-xl">
+        {(successfulSubmit) ? 
+          <div className="fixed z-50 flex justify-center items-center h-full w-full bg-black bg-opacity-50">
+            <div className="bg-white p-md rounded-full">
+              <p className="text-3xl"><i  className="text-green-500 fas fa-check"/> Success!</p>
+            </div>
+          </div>
+          :
+          null
+        }
+        
+        <div className="w-10/12 bg-white shadow-md rounded my-xl">
         
           <div className="flex justify-center items-center my-md">
             <h1 className="page_header text-4xl font-semibold px-sm">
