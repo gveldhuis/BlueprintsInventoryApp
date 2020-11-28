@@ -1,5 +1,4 @@
 import React from 'react';
-import Authentication from 'utils/Auth';
 import { getUserStats } from 'utils/api_utils';
 
 class Stats extends React.Component {
@@ -33,7 +32,7 @@ class Stats extends React.Component {
     return (
       <div className="h-screen">
 
-        <div className="flex justify-center items-center h-1/4">
+        <div className="flex justify-center items-center h-1/5">
           <h1 className="page_header text-6xl">
             Statistics
           </h1>
@@ -68,8 +67,8 @@ class Stats extends React.Component {
           </p>
         </div>
 
-        <div className="flex justify-center items-start h-1/4 p-md">
-          <button className="pill_button" onClick={auth.clearLogin}>
+        <div className="flex justify-center items-center h-1/5 py-md">
+          <button className="pill_button text-2xl px-lg py-md" onClick={auth.clearLogin}>
             Log Out
           </button>
         </div>
