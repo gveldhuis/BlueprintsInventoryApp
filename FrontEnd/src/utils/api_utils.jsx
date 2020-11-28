@@ -58,12 +58,13 @@ export async function registerInventory(volunteerID, password, supplyID, amount,
     password: password,
     supply: parseInt(supplyID),
     amount: parseInt(amount),
-    expiraton_date: {
+    expiration_date: {
       year: parseInt(expirationYear),
       month: parseInt(expirationMonth),
       day: parseInt(expirationDay),
     },
   };
+
   const response = await fetch(
     "http://52.188.114.62:80/api/register_inventory/", 
     {
