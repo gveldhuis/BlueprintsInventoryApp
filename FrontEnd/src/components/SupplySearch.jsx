@@ -26,8 +26,8 @@ class SupplySearch extends React.Component {
 
   render() {
     return (
-      <div className="flex justify-center items-start h-screen bg-gray-200">
-        <div className="w-10/12 bg-white shadow-md rounded my-xl">
+      <div className="form_screen">
+        <div className="form_card">
           
           <div className="flex justify-center items-center my-md">
             <h1 className="page_header text-4xl font-semibold px-sm">
@@ -55,7 +55,7 @@ class SupplySearch extends React.Component {
                       as="textarea"
                       rows="4"
                       placeholder="Supply label text"
-                      className="resize-none bg-gray-200 text-start border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                      className="form_field resize-none"
                     />
                   </div>
                 </div>

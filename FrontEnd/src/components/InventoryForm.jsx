@@ -46,9 +46,9 @@ class InventoryForm extends React.Component {
     console.log(selectedSupply);
 
     return(
-      <div className="flex justify-center items-start h-screen bg-gray-200">
+      <div className="form_screen">
         {(successfulSubmit) ? 
-          <div className="fixed z-50 flex justify-center items-center h-full w-full bg-black bg-opacity-50">
+          <div className="popup">
             <div className="bg-white p-md rounded-full">
               <p className="text-3xl"><i  className="text-green-500 fas fa-check"/> Success!</p>
             </div>
@@ -57,7 +57,7 @@ class InventoryForm extends React.Component {
           null
         }
 
-        <div className="w-10/12 bg-white shadow-md rounded my-xl">
+        <div className="form_card">
           
           <div className="flex justify-center items-center my-md">
             <h1 className="page_header text-4xl font-semibold px-sm">
@@ -92,7 +92,7 @@ class InventoryForm extends React.Component {
                     name="supplyName"
                     type="text"
                     disabled={true}
-                    className="bg-gray-300 border-2 border-gray-300 rounded w-full font-semibold"
+                    className="form_field"
                   />
                 </div>
               </div>
@@ -107,7 +107,7 @@ class InventoryForm extends React.Component {
                   <Field
                     name="amount"
                     type="number"
-                    className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                    className="form_field"
                   />
                 </div>
                 <div className="text-red-600 font-normal italic">
@@ -125,7 +125,7 @@ class InventoryForm extends React.Component {
                   <Field
                     name="expDate"
                     type="date"
-                    className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                    className="form_field"
                   />
                 </div>
                 <div className="text-red-600 font-normal italic">

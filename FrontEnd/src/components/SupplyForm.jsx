@@ -61,9 +61,9 @@ class SupplyForm extends React.Component {
   render() {
     const { submitting, successfulSubmit } = this.state;
     return(
-      <div className="flex justify-center items-start h-screen bg-gray-200">
+      <div className="form_screen">
         {(successfulSubmit) ? 
-          <div className="fixed z-50 flex justify-center items-center h-full w-full bg-black bg-opacity-50">
+          <div className="popup">
             <div className="bg-white p-md rounded-full">
               <p className="text-3xl"><i  className="text-green-500 fas fa-check"/> Success!</p>
             </div>
@@ -72,7 +72,7 @@ class SupplyForm extends React.Component {
           null
         }
         
-        <div className="w-10/12 bg-white shadow-md rounded my-xl">
+        <div className="form_card">
         
           <div className="flex justify-center items-center my-md">
             <h1 className="page_header text-4xl font-semibold px-sm">
@@ -105,7 +105,7 @@ class SupplyForm extends React.Component {
                   <Field 
                     name="supplyName"
                     type="text"
-                    className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                    className="form_field"
                   />
                 </div>
                 <div className="text-red-600 font-normal italic">
@@ -123,7 +123,7 @@ class SupplyForm extends React.Component {
                   <Field
                     name="brand"
                     type="text"
-                    className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                    className="form_field"
                   />
                 </div>
                 <div className="text-red-600 font-normal italic">
@@ -141,7 +141,7 @@ class SupplyForm extends React.Component {
                   <Field
                     name="refNumber"
                     type="text"
-                    className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                    className="form_field"
                   />
                 </div>
                 <div className="text-red-600 font-normal italic">

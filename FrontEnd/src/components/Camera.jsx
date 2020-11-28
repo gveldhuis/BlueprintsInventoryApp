@@ -117,7 +117,7 @@ class CameraFeed extends React.Component {
     return (
       <div>
         {(runningOCR) ? 
-          <div className="fixed z-50 flex justify-center items-center h-full w-full bg-black bg-opacity-50">
+          <div className="popup">
             <div className="bg-white paragraph p-md rounded-xl">
               <h2 className="text-3xl">
                 Scanning, Please Wait...

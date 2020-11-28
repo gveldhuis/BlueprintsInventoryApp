@@ -119,12 +119,12 @@ class Login extends React.Component {
                     eventPassword: '',
                   }}
                   validationSchema={Yup.object({
-                    firstName: Yup.string().required('Required'),
-                    lastName: Yup.string().required('Required'),
-                    email: Yup.string().email("Invalid email").required("Required"),
-                    eventID: Yup.number().required("Required"),
-                    orgID: Yup.number().required("Required"),
-                    eventPassword: Yup.string().required("Required"),
+                    firstName: Yup.string().required('*'),
+                    lastName: Yup.string().required('*'),
+                    email: Yup.string().email("*").required("*"),
+                    eventID: Yup.number().required("*"),
+                    orgID: Yup.number().required("*"),
+                    eventPassword: Yup.string().required("*"),
                   })}
                   onSubmit={(values) => {
                     this.handleSubmit(auth.setLogin, values);
@@ -137,14 +137,14 @@ class Login extends React.Component {
                           First Name
                         </label>
                       </div>
-                      <div className="w-1/2">
+                      <div className="w-7/12">
                         <Field 
                           name="firstName"
                           type="text"
-                          className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                          className="form_field"
                         />
                       </div>
-                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
+                      <div className="text-red-600 font-normal italic mx-sm">
                         <ErrorMessage name="firstName"/>
                       </div>
                     </div>
@@ -155,14 +155,14 @@ class Login extends React.Component {
                           Last Name
                         </label>
                       </div>
-                      <div className="w-1/2">
+                      <div className="w-7/12">
                         <Field
                           name="lastName"
                           type="text"
-                          className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                          className="form_field"
                         />
                       </div>
-                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
+                      <div className="text-red-600 font-normal italic mx-sm">
                           <ErrorMessage name="lastName" />
                         </div>
                     </div>
@@ -173,14 +173,14 @@ class Login extends React.Component {
                           Email
                         </label>
                       </div>
-                      <div className="w-1/2">
+                      <div className="w-7/12">
                         <Field
                           name="email"
                           type="text"
-                          className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                          className="form_field"
                         />
                       </div>
-                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
+                      <div className="text-red-600 font-normal italic mx-sm">
                           <ErrorMessage name="email" />
                         </div>
                     </div>
@@ -191,7 +191,7 @@ class Login extends React.Component {
                           Event Name
                         </label>
                       </div>
-                      <div className="w-1/2">
+                      <div className="w-7/12">
                         <Field
                           name="eventID"
                           as="select"
@@ -204,13 +204,13 @@ class Login extends React.Component {
                             formProps.setFieldValue('eventID', field.target.value);
                             this.handleEventSelected(field.target.value);
                           }}
-                          className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                          className="form_field"
                         >
                           <option value=""></option>
                           {eventDropdownItems}
                         </Field>
                       </div>
-                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
+                      <div className="text-red-600 font-normal italic mx-sm">
                           <ErrorMessage name="eventID" />
                         </div>
                     </div>
@@ -221,18 +221,18 @@ class Login extends React.Component {
                           Organization
                         </label>
                       </div>
-                      <div className="w-1/2">
+                      <div className="w-7/12">
                         <Field
                           name="orgID"
                           as="select"
                           disabled={waitingForOrgs}
-                          className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                          className="form_field"
                         >
                           <option value="">{eventSelected ? "" : " Please Select Event"}</option>
                           {orgDropdownItems}
                         </Field>
                       </div>
-                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
+                      <div className="text-red-600 font-normal italic mx-sm">
                           <ErrorMessage name="orgID" />
                         </div>
                     </div>
@@ -243,20 +243,19 @@ class Login extends React.Component {
                           Password
                         </label>
                       </div>
-                      <div className="w-1/2">
+                      <div className="w-7/12">
                         <Field
                           name="eventPassword"
                           type="text"
-                          className="bg-gray-200 border-2 border-gray-200 rounded w-full focus:outline-none focus:bg-white focus:border-light_blue"
+                          className="form_field"
                         />
                       </div>
-                      <div className="w-1/6 text-red-600 font-normal italic mx-sm">
+                      <div className="text-red-600 font-normal italic mx-sm">
                           <ErrorMessage name="eventPassword" />
                         </div>
                     </div>
                     
                     <div className="flex justify-center">
-                      {/* TODO #3: Disable this when loggingIn = true */}
                       <button type="submit" value="Login" className="pill_button w-1/4" disabled={loggingIn}>
                         Log In
                       </button>

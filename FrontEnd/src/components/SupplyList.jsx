@@ -79,7 +79,6 @@ class SupplyList extends React.Component {
           </div>
         </div>
         <div
-          // onClick={() => this.handleListItemClick(index)}
           className="w-full overflow-x-scroll"
         >
           <div className="w-full whitespace-no-wrap">
@@ -99,8 +98,8 @@ class SupplyList extends React.Component {
     ));
 
     return(
-      <div className="flex justify-center items-start h-screen bg-gray-200">
-        <div className="w-10/12 bg-white shadow-md rounded my-xl h-3/4">
+      <div className="form_screen">
+        <div className="form_card h-3/4">
 
           <div className="flex justify-center items-center my-md">
             <h1 className="page_header text-4xl font-semibold px-sm">
@@ -120,7 +119,7 @@ class SupplyList extends React.Component {
             }}
           >
             <Form className="h-4/5">
-              <Field component="div" className="h-7/10 overflow-y-scroll mx-sm">
+              <Field component="div" className="h-7/10 overflow-y-scroll mx-sm shadow border border-gray-400">
                 {listItems}
               </Field>
 
