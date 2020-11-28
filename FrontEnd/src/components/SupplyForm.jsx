@@ -5,7 +5,6 @@ import {
   Field,
   ErrorMessage,
 } from 'formik';
-import Authentication from 'utils/Auth';
 import * as Yup from 'yup';
 import FORM_PAGES from 'utils/ScanFormPages';
 import { registerSupply } from 'utils/api_utils';
