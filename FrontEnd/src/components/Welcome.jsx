@@ -10,8 +10,8 @@ class Stats extends React.Component {
         <div className="flex h-1/5 items-end justify-center">
           <h1 className="text-6xl page_header font-semibold">Welcome!</h1>
         </div>
-        <div className="flex h-3/5 items-center justify-center my-md mx-md py-lg">
-          <p className="text-3xl paragraph text-center w-3/4">
+        <div className="flex items-center justify-center my-md mx-md py-lg">
+          <p className="text-3xl paragraph text-center w-5/6">
           Welcome to our
           Blueprints For
           Pangaea Inventory
@@ -25,8 +25,8 @@ class Stats extends React.Component {
           them most.
           </p>
         </div>
-        <div className="flex h-3/5 items-center justify-center my-md mx-md pb-xl">
-          <p className="text-3xl paragraph text-center w-3/4">
+        <div className="flex items-center justify-center my-md mx-md pb-xl">
+          <p className="text-3xl paragraph text-center w-5/6">
           Our founder, Ben
           Rathi, often said
           that “A single
@@ -39,14 +39,12 @@ class Stats extends React.Component {
           of lives.
           </p>
         </div>
-        <div className="flex h-1/6 items-end justify-center pb-xl">
-          <div className="flex justify-center items-end h-1/6">
-                <img
-                  src={require('assets/images/Blueprints_Logo4.png')} 
-                  alt = "Logo"
-                  className="w-1/6 object-contain"
-                />
-              </div>
+        <div className="flex items-end justify-center pb-xl">
+          <img
+            src={require('assets/images/Blueprints_Logo4.png')} 
+            alt = "Logo"
+            className="w-1/3 object-contain"
+          />
         </div>
         <div className="sticky bottom-0 flex h-1/12 items-start justify-center">
           <Link to="/" className="rounded-b-none rounded-t-5xl pill_button w-2/3 text-center text-4xl py-md whitespace-no-wrap">Let's begin!</Link>
