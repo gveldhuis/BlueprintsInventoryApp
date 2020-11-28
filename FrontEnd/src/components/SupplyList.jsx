@@ -129,21 +129,21 @@ class SupplyList extends React.Component {
 
               <div className="flex flex-wrap justify-center pt-md">
                 <div className="flex flex-wrap justify-evenly w-full">
-                  <button onClick={this.registerNewSupply} type="button" className="pill_button my-sm">
+                  <button onClick={this.registerNewSupply} type="button" className="pill_button w-2/5 my-sm">
                     New Supply
                   </button>
 
-                  <button type="submit" className="pill_button bg-light_blue my-sm">
+                  <button type="submit" className="pill_button bg-light_blue w-2/5 my-sm">
                     Next <p className="fas fa-arrow-right"/>
                   </button>
                 </div>
 
                 <div className="flex flex-wrap justify-evenly w-full">
-                  <button onClick={this.searchForSupply} type="button" className="pill_button my-sm">
+                  <button onClick={this.searchForSupply} type="button" className="pill_button w-2/5 my-sm">
                     Manual Search
                   </button>
 
-                  <button onClick={this.rescanSupply} type="button" className="pill_button my-sm">
+                  <button onClick={this.rescanSupply} type="button" className="pill_button w-2/5 my-sm">
                     Re-Scan Item
                   </button>
                 </div>
