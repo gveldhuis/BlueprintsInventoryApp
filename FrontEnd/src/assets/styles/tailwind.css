@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: font-avenir;
+  }
+}
+
+.space_out {
+  @apply px-md py-sm m-sm;
+}
+
+.page_header {
+  @apply text-5xl text-center text-med_blue;
+}
+
+.section_header {
+  @apply text-3xl text-med_blue;
+}
+
+.paragraph { 
+  @apply text-xl text-dark_blue;
+}
+
+.pill_button {
+  @apply bg-dark_blue text-white rounded-full px-md py-sm;
+}
+
+.pill_button:hover {
+  @apply bg-light_blue;
+}
+
+.pill_button:focus {
+  @apply outline-none;
+}
+
+.bottom_nav {
+  @apply flex justify-evenly bg-dark_blue px-md rounded-t-5xl;
+}
+
+.active_link {
+  @apply text-white !important;
+}
+
+.popup {
+  @apply fixed z-50 flex justify-center items-center h-full w-full bg-black bg-opacity-50;
+}
+
+.form_screen {
+  @apply flex justify-center items-start h-screen bg-gray-200;
+}
+
+.form_card {
+  @apply w-10/12 bg-white shadow-md rounded my-xl;
+}
+
+.form_field {
+  @apply bg-gray-200 border-2 border-gray-200 rounded w-full;
+}
+
+.form_field:focus {
+  @apply outline-none bg-white border-light_blue
+}
