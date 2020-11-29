@@ -45,25 +45,23 @@ class Login extends React.Component {
     this.setState({
       loggingIn: true,
     });
-    // registerVolunteer(
-    //   formValues.eventID,
-    //   formValues.eventPassword,
-    //   formValues.orgID,
-    //   formValues.firstName,
-    //   formValues.lastName,
-    //   formValues.email)
-    // .then((data) => {
-    //   login(data.id, formValues.eventPassword);
-    // })
-    // .catch((error) => {
-    //   alert("Login failed. Please try again.");
-    //   console.log(error.message);
-    //   this.setState({
-    //     loggingIn: false,
-    //   });
-    // });
-
-    login(10, "atlas");
+    registerVolunteer(
+      formValues.eventID,
+      formValues.eventPassword,
+      formValues.orgID,
+      formValues.firstName,
+      formValues.lastName,
+      formValues.email)
+    .then((data) => {
+      login(data.id, formValues.eventPassword);
+    })
+    .catch((error) => {
+      alert("Login failed. Please try again.");
+      console.log(error.message);
+      this.setState({
+        loggingIn: false,
+      });
+    });
   }
 
   componentDidMount() {
