@@ -31,6 +31,7 @@ jobs:
         # deploy to Azure Web App.
         cd FrontEnd
         yarn install
+        yarn build:styles
         yarn build
 
     - name: 'Deploy to Azure WebApp'
