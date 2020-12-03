@@ -1,5 +1,6 @@
 {
   "name": "front-end",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -47,6 +48,7 @@
     ]
   },
   "devDependencies": {
-    "eslint-config-airbnb": "^18.2.0"
+    "eslint-config-airbnb": "^18.2.0",
+    "serve": "^11.3.2"
   }
 }

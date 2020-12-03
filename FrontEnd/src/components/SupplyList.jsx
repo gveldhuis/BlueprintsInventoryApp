@@ -97,7 +97,7 @@ class SupplyList extends React.Component {
       </label>
     ));
 
-    return(
+    return (
       <div className="form_screen">
         <div className="form_card h-3/4">
 
@@ -157,106 +157,3 @@ class SupplyList extends React.Component {
 }
 
 export default SupplyList;
-
-// const supplyData = [
-//   [
-//     0,
-//     {
-//       id: 0,
-//       ref_number: "abcab cabcabcab cabcabcabcabcabca bcabcabcabcab cabc",
-//       brand: "MeijerMeije rMeijerMeijerMeij erMeijerMeijerMeijerMeije rMeijer",
-//       name: "GlovesGl ovesGlovesGlovesG lovesGlovesGlo vesGlovesGloves Gloves",
-//       category: "misc",
-//     }
-//   ],
-//   [
-//     0,
-//     {
-//       id: 1,
-//       ref_number: "abc",
-//       brand: "Meijer",
-//       name: "Gloves",
-//       category: "misc",
-//     }
-//   ],
-//   [
-//     0,
-//     {
-//       id: 2,
-//       ref_number: "abc",
-//       brand: "Meijer",
-//       name: "Gloves",
-//       category: "misc",
-//     }
-//   ],
-//   [
-//     0,
-//     {
-//       id: 3,
-//       ref_number: "abc",
-//       brand: "Meijer",
-//       name: "Gloves",
-//       category: "misc",
-//     }
-//   ],
-//   [
-//     0,
-//     {
-//       id: 4,
-//       ref_number: "abc",
-//       brand: "Meijer",
-//       name: "Gloves",
-//       category: "misc",
-//     }
-//   ],
-//   [
-//     0,
-//     {
-//       id: 5,
-//       ref_number: "abc",
-//       brand: "Meijer",
-//       name: "Gloves",
-//       category: "misc",
-//     }
-//   ],
-//   [
-//     0,
-//     {
-//       id: 6,
-//       ref_number: "abc",
-//       brand: "Meijer",
-//       name: "Gloves",
-//       category: "misc",
-//     }
-//   ],
-//   [
-//     0,
-//     {
-//       id: 7,
-//       ref_number: "abc",
-//       brand: "Meijer",
-//       name: "Gloves",
-//       category: "misc",
-//     }
-//   ],
-//   [
-//     0,
-//     {
-//       id: 8,
-//       ref_number: "abc",
-//       brand: "Meijer",
-//       name: "Gloves",
-//       category: "misc",
-//     }
-//   ],
-//   [
-//     0,
-//     {
-//       id: 9,
-//       ref_number: "abc",
-//       brand: "Meijer",
-//       name: "Gloves",
-//       category: "misc",
-//     }
-//   ],
-// ];

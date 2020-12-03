@@ -196,9 +196,6 @@ class Login extends React.Component {
                           disabled={waitingForEvents}
                           value={formProps.values.eventID}
                           onChange={(field) => {
-                            // To run a function when an event is selected, we need to
-                            // override this Formik prop and manually set the field value
-                            // before we handle the change
                             formProps.setFieldValue('eventID', field.target.value);
                             this.handleEventSelected(field.target.value);
                           }}

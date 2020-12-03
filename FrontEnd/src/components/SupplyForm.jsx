@@ -59,7 +59,7 @@ class SupplyForm extends React.Component {
 
   render() {
     const { submitting, successfulSubmit } = this.state;
-    return(
+    return (
       <div className="form_screen">
         {(successfulSubmit) ? 
           <div className="popup">

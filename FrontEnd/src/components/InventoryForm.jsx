@@ -45,7 +45,7 @@ class InventoryForm extends React.Component {
     const { selectedSupply } = this.props;
     console.log(selectedSupply);
 
-    return(
+    return (
       <div className="form_screen">
         {(successfulSubmit) ? 
           <div className="popup">

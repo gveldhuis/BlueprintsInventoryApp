@@ -12,7 +12,7 @@ import Authentication from 'utils/Auth';
 
 class Home extends React.Component {
   render() {
-    return(
+    return (
       <Authentication.Consumer>
         {
           (auth) => (

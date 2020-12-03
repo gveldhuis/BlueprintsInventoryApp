@@ -82,9 +82,9 @@ class App extends React.Component {
       home = <Redirect to="/login"/>
     }
 
+    // Router allows app to use React routing
+    // Authentication Provider allows entire app to access login state
     return (
-      // Router allows app to use React routing
-      // Authentication Provider allows entire app to access login state
       <Router>
         <Authentication.Provider
           value={{
