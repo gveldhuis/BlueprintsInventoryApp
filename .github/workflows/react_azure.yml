@@ -1,6 +1,7 @@
 name: Build and deploy React app to Azure Web App - blueprints-inventory
 
 on:
+  workflow_dispatch:    
   push:
     branches:
       - master
