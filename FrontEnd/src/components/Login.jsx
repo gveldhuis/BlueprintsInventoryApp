@@ -53,7 +53,7 @@ class Login extends React.Component {
       formValues.lastName,
       formValues.email)
     .then((data) => {
-      login(data.id, formValues.eventPassword);
+      login(data, formValues.eventPassword);
     })
     .catch((error) => {
       alert("Login failed. Please try again.");

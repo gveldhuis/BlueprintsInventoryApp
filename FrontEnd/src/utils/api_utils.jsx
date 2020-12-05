@@ -84,7 +84,7 @@ export async function registerInventory(volunteerID, password, supplyID, amount,
 
 export async function registerSupply(volunteerID, password, name, brand, refNumber) {
   const data = { 
-    volunteer: volunteerID, 
+    volunteer: parseInt(volunteerID), 
     password: password,
     name: name,
     brand: brand,
@@ -109,7 +109,7 @@ export async function registerSupply(volunteerID, password, name, brand, refNumb
 
 export async function getSupplies(volunteerID, password, imageText) {
   const data = { 
-    volunteer: volunteerID, 
+    volunteer: parseInt(volunteerID), 
     password: password,
     image_text: imageText,
   };
