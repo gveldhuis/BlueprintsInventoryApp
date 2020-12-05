@@ -241,7 +241,7 @@ class Login extends React.Component {
                       <div className="w-7/12">
                         <Field
                           name="eventPassword"
-                          type="text"
+                          type="password"
                           className="form_field"
                         />
                       </div>
