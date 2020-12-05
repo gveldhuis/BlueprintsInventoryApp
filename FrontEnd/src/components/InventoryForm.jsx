@@ -43,7 +43,6 @@ class InventoryForm extends React.Component {
   render() {
     const { submitting, successfulSubmit } = this.state;
     const { selectedSupply } = this.props;
-    console.log(selectedSupply);
 
     return (
       <div className="form_screen">
