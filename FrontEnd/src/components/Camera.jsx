@@ -1,5 +1,6 @@
 import React from 'react';
 import Webcam from 'react-webcam';
+import Jimp from 'jimp/es';
 import { createWorker } from 'tesseract.js';
 import makeCancelable from 'utils/CancelablePromise';
 
@@ -36,31 +37,44 @@ class CameraFeed extends React.Component {
     this.handleEditClick = this.handleEditClick.bind(this);
   }
 
-  // Helper function to get reference to Webcam
+  // Helper function to get reference to Webcam - this is how we access the
+  // camera component that we create in the render function
   setRef(webcam) {
     this.setState({
       webcamRef: webcam,
     });
   }
 
+  // Starts and stores the image processing task - note this function is synchronous
+  // To understand what's going on in this function, read about JS promises and their syntax
+  // The general idea is we create a task/promise of running the scanImage function which runs
+  // asynchronously - we then attach callback functions to run once that function succeeds or fails
+  // - then we store the promise (so we can cancel it if we need to) and set our state to running OCR
   handleCameraClick() {
     const task = makeCancelable(new Promise(resolve => {
       resolve(this.scanImage());
     }));
 
     task.promise.then((text) => {
+      // When task succeeds OCR is complete so we clear the current task and show the inventory form
       console.log(text);
+      this.setState({
+        runningOCR: false,
+        imageTask: null,
+      });
       this.props.showForm(false, text);
     })
     .catch((error) => {
       if (error.isCanceled !== true) {
+        // Task failed and wasn't cancelled
         alert("Error scanning image, please try again.");
         console.log(error);
-        this.setState({
-          runningOCR: false,
-          imageTask: null,
-        });
-      }  
+      }
+      // Task either failed or was cancelled - OCR is complete, clear current task 
+      this.setState({
+        runningOCR: false,
+        imageTask: null,
+      });
     });
 
     this.setState({
@@ -69,6 +83,7 @@ class CameraFeed extends React.Component {
     });
   }
 
+  // Asynchronous function that returns the recognized text from the camera
   async scanImage() {
     const { webcamRef, worker, workerLoaded } = this.state;
 
@@ -81,11 +96,15 @@ class CameraFeed extends React.Component {
       });
     }
 
-    // TODO: Pre-process image so Tesseract recognition is better on web-cam images
-    const { data: { text } } = await worker.recognize(webcamRef.getScreenshot())
+    // Pre-process image using Jimp library to make it more black and white 
+    // Tesseract doesn't work on Jimp objects so we get the processed image as a base64 string
+    const image = await Jimp.read(webcamRef.getScreenshot());
+    const image_processed = await image.greyscale().contrast(+0.7).normalize().getBase64Async(Jimp.MIME_PNG);
+    const { data: { text } } = await worker.recognize(image_processed);
     return text;
   }
 
+  // Cancel the image task when the cancel button is pressed in the popup
   cancelImageTask() {
     const { imageTask } = this.state;
 
@@ -99,7 +118,7 @@ class CameraFeed extends React.Component {
     });
   }
 
-  // If user skips scanning and navigates away, cancel any image scanning task present
+  // If user skips scanning or navigates away, cancel any image scanning task present
   componentWillUnmount() {
     const { imageTask } = this.state;
     if (imageTask !== null) {
@@ -107,6 +126,7 @@ class CameraFeed extends React.Component {
     }
   }
 
+  // Button for manual supply entry 
   handleEditClick() {
     this.props.showForm(true, "");
   }
